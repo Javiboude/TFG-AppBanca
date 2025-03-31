@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -23,10 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.httpclienttest.R
+import com.example.httpclienttest.ui.navigation.Destinations
 
 @Composable
-fun PantallaDeCargaScreen(pantallaDeCargaViewModel: PantallaDeCargaViewModel) {
+fun PantallaDeCargaScreen(
+    navController: NavController,
+    pantallaDeCargaViewModel: PantallaDeCargaViewModel
+) {
     val isLoading by pantallaDeCargaViewModel.isLoading.collectAsState()
 
     // Define los colores del degradado
@@ -76,7 +82,9 @@ fun PantallaDeCargaScreen(pantallaDeCargaViewModel: PantallaDeCargaViewModel) {
                     strokeWidth = 4.dp
                 ) // Indicador de carga
             } else {
-
+                LaunchedEffect(Unit) {
+                    navController.navigate("${Destinations.PANTALLA_LOGIN_URL}")
+                }
             }
         }
     }

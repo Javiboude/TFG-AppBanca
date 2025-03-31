@@ -20,7 +20,7 @@ class PantallaDeCargaViewModel : ViewModel() {
     private fun startLoading() {
         viewModelScope.launch {
             // Simular una operación de carga
-            delay(5000) // 3 segundos de carga
+            delay(3000) // 3 segundos de carga
             _isLoading.value = false // Finalizar carga
         }
     }

@@ -17,16 +17,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.httpclienttest.R
+import com.example.httpclienttest.ui.navigation.Destinations
 
 @Composable
-fun PantallaLoginScreen(pantallaLoginViewModel: PantallaLoginViewModel) {
+fun PantallaLoginScreen(
+    navController: NavController,
+    pantallaLoginViewModel: PantallaLoginViewModel) {
     // Acceso a los estados del ViewModel
     val phoneNumber = pantallaLoginViewModel.phoneNumber
     val password = pantallaLoginViewModel.password
@@ -41,10 +46,16 @@ fun PantallaLoginScreen(pantallaLoginViewModel: PantallaLoginViewModel) {
         Image(
             painter = painterResource(id = R.drawable.fotologin), // Carga la imagen desde recursos
             contentDescription = "Imagen Edificios", // Descripción para accesibilidad
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth() // Ocupa todo el ancho
-                .height(257.dp) // Altura fija para la imagen
-                .clip(RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)) // Redondea los bordes
+                .height(290.dp) // Altura fija para la imagen
+                .clip(
+                    RoundedCornerShape(
+                        bottomEnd = 16.dp,
+                        bottomStart = 16.dp
+                    )
+                ) // Redondea los bordes
         )
 
         // Texto "Login" dentro de la imagen, en la parte inferior izquierda
@@ -110,7 +121,9 @@ fun PantallaLoginScreen(pantallaLoginViewModel: PantallaLoginViewModel) {
 
             // Botón "Siguiente"
             Button(
-                onClick = { /* Implementa la lógica aquí */ },
+                onClick = {
+                    navController.navigate("${Destinations.PANTALLA_INICIO_URL}")
+                },
                 shape = RoundedCornerShape(50),
                 border = BorderStroke(1.dp, Color.Black), // Borde negro
                 modifier = Modifier
@@ -128,7 +141,9 @@ fun PantallaLoginScreen(pantallaLoginViewModel: PantallaLoginViewModel) {
                     .fillMaxWidth() // Ocupa todo el ancho disponible
                     .wrapContentWidth(align = Alignment.CenterHorizontally) // Centra horizontalmente
                     .padding(top = 8.dp)
-                    .clickable { pantallaLoginViewModel.navigateToRegister() }
+                    .clickable {
+                        navController.navigate("${Destinations.CREAR_CUENTA_1_URL}")
+                    }
             )
         }
     }

@@ -24,10 +24,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.httpclienttest.R
+import com.example.httpclienttest.ui.navigation.Destinations
 
 @Composable
-fun CrearCuenta1Screen(crearCeunta1ViewModel: CrearCuenta1ViewModel) {
+fun CrearCuenta1Screen(
+    navController: NavController,
+    crearCeunta1ViewModel: CrearCuenta1ViewModel) {
     // Acceso a los estados del ViewModel
     val phoneNumber = crearCeunta1ViewModel.phoneNumber
 
@@ -41,16 +45,15 @@ fun CrearCuenta1Screen(crearCeunta1ViewModel: CrearCuenta1ViewModel) {
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth() // Ocupa todo el ancho
-                .height(250.dp) // Altura fija para la imagen
+                .height(290.dp) // Altura fija para la imagen
                 .clip(RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp)) // Redondea los bordes
         )
-
         // Texto "Crear Cuenta" dentro de la imagen, en la parte inferior izquierda
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp) // Misma altura que la imagen
-                .padding(16.dp) // Padding para el texto
+                .padding(15.dp) // Padding para el texto
         ) {
             Text(
                 text = "Crear Cuenta",
@@ -74,6 +77,7 @@ fun CrearCuenta1Screen(crearCeunta1ViewModel: CrearCuenta1ViewModel) {
             Spacer(modifier = Modifier.height(10.dp))
 
             // Icono de teléfono en círculos concéntricos
+            Spacer(modifier = Modifier.height(10.dp))
             Box(
                 modifier = Modifier
                     .size(90.dp)
@@ -101,7 +105,7 @@ fun CrearCuenta1Screen(crearCeunta1ViewModel: CrearCuenta1ViewModel) {
 
             // Botón "Siguiente"
             Button(
-                onClick = { /* Implementa la lógica aquí */ },
+                onClick = {navController.navigate("${Destinations.CREAR_CUENTA_2_URL}") },
                 shape = RoundedCornerShape(50),
                 border = BorderStroke(1.dp, Color.Black), // Borde negro
                 modifier = Modifier
@@ -119,7 +123,7 @@ fun CrearCuenta1Screen(crearCeunta1ViewModel: CrearCuenta1ViewModel) {
                     .fillMaxWidth() // Ocupa todo el ancho disponible
                     .wrapContentWidth(align = Alignment.CenterHorizontally) // Centra horizontalmente
                     .padding(top = 8.dp)
-                    .clickable { crearCeunta1ViewModel.navigateToRegister() }
+                    .clickable { navController.navigate("${Destinations.PANTALLA_LOGIN_URL}") }
             )
         }
     }
