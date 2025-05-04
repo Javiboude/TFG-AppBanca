@@ -52,10 +52,44 @@ fun CrearCuenta2Screen(
             contraseña.value.isNotBlank() &&
             confirmarContraseña.value.isNotBlank()
 
-    // Imagen y diseño superior
+    val registroExitoso by crearCuenta2ViewModel.registroExitoso
+
+    val registroFallido by crearCuenta2ViewModel.registroFallido
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+
+        if (registroExitoso) {
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { },
+                confirmButton = {
+                    Button(onClick = {
+                        crearCuenta2ViewModel.setRegistroExitoso(false)
+                        navController.navigate(Destinations.PANTALLA_LOGIN_URL)
+                    }) {
+                        Text("Aceptar")
+                    }
+                },
+                title = { Text("Registro exitoso") },
+                text = { Text("Tu cuenta ha sido creada correctamente.") }
+            )
+        }
+        if (registroFallido == true) {
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { },
+                confirmButton = {
+                    Button(onClick = {
+                        crearCuenta2ViewModel.setRegistroFallido(false)
+                    }) {
+                        Text("Aceptar")
+                    }
+                },
+                title = { Text("Registro Fallido") },
+                text = { Text("Ese numero de telefono ya existe.") }
+            )
+        }
+
         Image(
             painter = painterResource(id = R.drawable.fotoregistro),
             contentDescription = "Imagen Edificios",
@@ -179,7 +213,6 @@ fun CrearCuenta2Screen(
                         }
 
                         crearCuenta2ViewModel.registerUser(nombre.value, numeroTelefono.value, contraseña.value)
-                        navController.navigate("${Destinations.PANTALLA_LOGIN_URL}")
                     },
                     enabled = isFormValid,
                     shape = RoundedCornerShape(50),

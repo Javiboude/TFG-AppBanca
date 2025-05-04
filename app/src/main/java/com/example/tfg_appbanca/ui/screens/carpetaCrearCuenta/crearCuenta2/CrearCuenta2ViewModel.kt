@@ -1,5 +1,6 @@
 package com.example.httpclienttest.ui.screens.crearCuenta2
 
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,18 +24,38 @@ class CrearCuenta2ViewModel @Inject constructor(
     val registerResponse = mutableStateOf<RegisterResponse?>(null)
     val isLoading = mutableStateOf(false)
 
+    var registroExitoso = mutableStateOf(false)
+    var registroFallido = mutableStateOf(false)
+
+
+    fun setRegistroExitoso(valor: Boolean) {
+        registroExitoso.value = valor
+    }
+
+    fun setRegistroFallido(valor: Boolean) {
+        registroFallido.value = valor
+    }
+
     fun togglePasswordVisibility() {
         contraseñaVisible.value = !contraseñaVisible.value
     }
 
     fun registerUser(nombre: String, numeroTelefono: String, contraseña: String) {
-
         if (nombre.isNotEmpty() && numeroTelefono.isNotEmpty() && contraseña.isNotEmpty()) {
             isLoading.value = true
             viewModelScope.launch {
                 val response = pantallaCrearCuenta2.registerUser(nombre, numeroTelefono, contraseña)
                 isLoading.value = false
                 registerResponse.value = response
+                if (response != null) {
+                    if (response.user_id != 0) {
+                        registroExitoso.value = true
+                    } else {
+                        registroFallido.value = true
+                    }
+                }else{
+                    registroFallido.value = true
+                }
             }
         }
     }

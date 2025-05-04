@@ -1,15 +1,14 @@
 package com.example.tfg_appbanca.data.remote
 
 
-import com.example.tfg_appbanca.data.model.BalanceDinero
-import com.example.tfg_appbanca.data.model.Contactos
+import com.example.tfg_appbanca.data.model.gets.BalanceDinero
+import com.example.tfg_appbanca.data.model.gets.Contactos
 import com.example.tfg_appbanca.data.model.RegisterResponse
-import com.example.tfg_appbanca.data.model.Ultimosmovimientos
+import com.example.tfg_appbanca.data.model.gets.Ultimosmovimientos
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {

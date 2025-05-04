@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg_appbanca.data.model.BalanceDinero
-import com.example.tfg_appbanca.data.model.Movimiento
+import com.example.tfg_appbanca.data.model.gets.BalanceDinero
+import com.example.tfg_appbanca.data.model.gets.Movimiento
 import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

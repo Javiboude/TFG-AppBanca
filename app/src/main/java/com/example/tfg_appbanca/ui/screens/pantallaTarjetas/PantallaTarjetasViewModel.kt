@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.tfg_appbanca.data.model.Movimiento
+import com.example.tfg_appbanca.data.model.gets.Movimiento
 import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 

@@ -1,4 +1,4 @@
-package com.example.tfg_appbanca.data.model
+package com.example.tfg_appbanca.data.model.gets
 
 data class BalanceDinero(
     val balanceTotal: String,

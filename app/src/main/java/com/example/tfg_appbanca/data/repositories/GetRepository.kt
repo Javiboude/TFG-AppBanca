@@ -1,8 +1,8 @@
 package com.example.tfg_appbanca.data.repositories
 
-import com.example.tfg_appbanca.data.model.BalanceDinero
-import com.example.tfg_appbanca.data.model.Contactos
-import com.example.tfg_appbanca.data.model.Ultimosmovimientos
+import com.example.tfg_appbanca.data.model.gets.BalanceDinero
+import com.example.tfg_appbanca.data.model.gets.Contactos
+import com.example.tfg_appbanca.data.model.gets.Ultimosmovimientos
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
