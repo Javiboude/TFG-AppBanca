@@ -5,14 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.tfg_appbanca.data.model.Movimiento
-import com.example.tfg_appbanca.data.repositories.PantallaInicioRepository
+import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import javax.inject.Inject
 
 @HiltViewModel
 class PantallaTarjetasViewModel @Inject constructor(
-    private val pantallaTarjetasViewModel: PantallaInicioRepository
+    private val pantallaTarjetasViewModel: GetRepository
 ) : ViewModel() {
 
     val saldoCuenta = "103.00"

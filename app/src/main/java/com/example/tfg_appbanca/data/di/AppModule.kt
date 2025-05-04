@@ -1,7 +1,8 @@
 package com.example.tfg_appbanca.data.di
 
 
-import com.example.tfg_appbanca.data.repositories.PantallaInicioRepository
+import com.example.tfg_appbanca.data.repositories.GetRepository
+import com.example.tfg_appbanca.data.repositories.PostRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideProductRepository(): PantallaInicioRepository {
-        return PantallaInicioRepository()
+    fun provideProductRepository(): GetRepository {
+        return GetRepository()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductRepository2(): PostRepository {
+        return PostRepository()
     }
 }

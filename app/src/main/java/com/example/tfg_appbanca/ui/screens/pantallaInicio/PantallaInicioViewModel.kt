@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg_appbanca.data.model.BalanceDinero
 import com.example.tfg_appbanca.data.model.Movimiento
-import com.example.tfg_appbanca.data.model.Ultimosmovimientos
-import com.example.tfg_appbanca.data.repositories.PantallaInicioRepository
+import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PantallaInicioViewModel @Inject constructor(
-    private val pantallaInicioRepository: PantallaInicioRepository
+    private val pantallaInicioRepository: GetRepository
 ) : ViewModel() {
 
     val saldoCuenta = "103.00"

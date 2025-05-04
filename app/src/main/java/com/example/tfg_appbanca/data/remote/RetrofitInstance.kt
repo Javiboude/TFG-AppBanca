@@ -1,10 +1,9 @@
-package com.example.tfg_appbanca.data.remote
-
+import com.example.tfg_appbanca.data.remote.ApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "http://10.0.2.2:8000"
+    private const val BASE_URL = "http://10.0.2.2:8000/"
 
     val api: ApiService by lazy {
         Retrofit.Builder()
@@ -13,5 +12,4 @@ object RetrofitInstance {
             .build()
             .create(ApiService::class.java)
     }
-
 }

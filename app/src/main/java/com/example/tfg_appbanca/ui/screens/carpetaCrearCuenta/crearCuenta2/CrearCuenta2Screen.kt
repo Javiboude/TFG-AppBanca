@@ -1,13 +1,12 @@
 package com.example.httpclienttest.ui.screens.crearCuenta2
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -28,160 +27,172 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.httpclienttest.ui.screens.crearCuenta1.CrearCuenta1ViewModel
 import com.example.tfg_appbanca.R
+import com.example.tfg_appbanca.data.model.RegisterResponse
 
 @Composable
 fun CrearCuenta2Screen(
     navController: NavController,
-    crearCuenta2ViewModel: CrearCuenta2ViewModel) {
-    // Acceso a los estados del ViewModel
-    val name = crearCuenta2ViewModel.name
-    val email = crearCuenta2ViewModel.email
-    val password = crearCuenta2ViewModel.password
-    val isPasswordVisible = crearCuenta2ViewModel.isPasswordVisible
+    crearCuenta2ViewModel: CrearCuenta2ViewModel = hiltViewModel(),
+) {
+    val nombre = crearCuenta2ViewModel.nombre
+    val contraseña = crearCuenta2ViewModel.contraseña
+    val contraseñaVisible = crearCuenta2ViewModel.contraseñaVisible
+    val confirmarContraseña = crearCuenta2ViewModel.confirmarContraseña
+    val numeroTelefono = crearCuenta2ViewModel.numeroTelefono
 
+    val isLoading = crearCuenta2ViewModel.isLoading.value
+
+    val isFormValid = nombre.value.isNotBlank() &&
+            numeroTelefono.value.isNotBlank() &&
+            contraseña.value.isNotBlank() &&
+            confirmarContraseña.value.isNotBlank()
+
+    // Imagen y diseño superior
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Imagen en la parte superior con bordes redondeados
         Image(
             painter = painterResource(id = R.drawable.fotoregistro),
             contentDescription = "Imagen Edificios",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxWidth() // Ocupa todo el ancho
-                .height(290.dp) // Altura fija para la imagen
+                .fillMaxWidth()
+                .height(290.dp)
                 .clip(
                     RoundedCornerShape(
                         bottomEnd = 16.dp,
                         bottomStart = 16.dp
                     )
-                ) // Redondea los bordes
+                )
         )
 
-        // Texto "Crear Cuenta" dentro de la imagen, en la parte inferior izquierda
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp) // Misma altura que la imagen
-                .padding(16.dp) // Padding para el texto
+                .height(280.dp)
+                .padding(16.dp)
         ) {
             Text(
-                text = "Informacion Personal",
-                color = Color.White, // Color del texto
+                text = "Crear cuenta",
+                color = Color.White,
                 fontSize = 36.sp,
                 modifier = Modifier
-                    .align(Alignment.BottomStart) // Alinea el texto en la parte inferior izquierda
+                    .align(Alignment.BottomStart)
             )
         }
 
-        // Contenido principal debajo de la imagen
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(top = 280.dp), // Ajusta el espacio para que no se superponga con la imagen
+                .padding(top = 280.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
             Spacer(modifier = Modifier.height(15.dp))
-
-            // Icono de teléfono en círculos concéntricos
-            Box(
-                modifier = Modifier
-                    .size(90.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF0D47A1)) // Azul más oscuro
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Persona",
-                    tint = Color.White,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Campo de número de teléfono
+            // Campo Nombre
             OutlinedTextField(
-                value = email.value,
-                onValueChange = { email.value = it },
+                value = nombre.value,
+                onValueChange = { nombre.value = it },
                 label = { Text("Nombre") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
+                value = numeroTelefono.value,
+                onValueChange = { numeroTelefono.value = it },
+                label = { Text("Número de teléfono") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Campo de contraseña
+            // Campo Contraseña
             OutlinedTextField(
-                value = password.value,
-                onValueChange = { password.value = it },
+                value = contraseña.value,
+                onValueChange = { contraseña.value = it },
                 label = { Text("Contraseña") },
-                visualTransformation = if (isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (contraseñaVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 trailingIcon = {
                     IconButton(onClick = { crearCuenta2ViewModel.togglePasswordVisibility() }) {
                         Icon(
-                            painter = if (isPasswordVisible.value) painterResource(id = R.drawable.eyeopen) // Icono de ojo abierto
-                            else painterResource(id = R.drawable.eyeclose), // Icono de ojo cerrado
-                            contentDescription = if (isPasswordVisible.value) "Ocultar contraseña" else "Mostrar contraseña"
+                            painter = if (contraseñaVisible.value) painterResource(id = R.drawable.eyeopen)
+                            else painterResource(id = R.drawable.eyeclose),
+                            contentDescription = if (contraseñaVisible.value) "Ocultar contraseña" else "Mostrar contraseña"
                         )
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Campo de contraseña
+            // Confirmar Contraseña
             OutlinedTextField(
-                value = password.value,
-                onValueChange = { password.value = it },
-                label = { Text("Confirmacion de contraseña") },
-                visualTransformation = if (isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                value = confirmarContraseña.value,
+                onValueChange = { confirmarContraseña.value = it },
+                label = { Text("Confirmación de contraseña") },
+                visualTransformation = if (contraseñaVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 trailingIcon = {
                     IconButton(onClick = { crearCuenta2ViewModel.togglePasswordVisibility() }) {
                         Icon(
-                            painter = if (isPasswordVisible.value) painterResource(id = R.drawable.eyeopen) // Icono de ojo abierto
-                            else painterResource(id = R.drawable.eyeclose), // Icono de ojo cerrado
-                            contentDescription = if (isPasswordVisible.value) "Ocultar contraseña" else "Mostrar contraseña"
+                            painter = if (contraseñaVisible.value) painterResource(id = R.drawable.eyeopen)
+                            else painterResource(id = R.drawable.eyeclose),
+                            contentDescription = if (contraseñaVisible.value) "Ocultar contraseña" else "Mostrar contraseña"
                         )
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Espaciado entre campos y botones
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Fila con los botones "Atrás" y "Siguiente"
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
-                    onClick = { navController.navigate("${Destinations.CREAR_CUENTA_1_URL}") },
+                    onClick = { navController.navigate("${Destinations.PANTALLA_LOGIN_URL}") },
                     shape = RoundedCornerShape(50),
-                    border = BorderStroke(1.dp, Color.Black), // Borde negro
+                    border = BorderStroke(1.dp, Color.Black),
                     modifier = Modifier
-                        .weight(1f) // Cada botón ocupa la mitad del ancho
-                        .padding(end = 8.dp) // Espacio entre botones
+                        .weight(1f)
+                        .padding(end = 8.dp)
                 ) {
                     Text(text = "Atrás", fontSize = 18.sp)
                 }
 
                 Button(
-                    onClick = {  navController.navigate("${Destinations.PANTALLA_INICIO_URL}") },
+                    onClick = {
+                        if (contraseña.value != confirmarContraseña.value) {
+                            Log.e("Registro", "Las contraseñas no coinciden")
+                            return@Button
+                        }
+
+                        crearCuenta2ViewModel.registerUser(nombre.value, numeroTelefono.value, contraseña.value)
+                        navController.navigate("${Destinations.PANTALLA_LOGIN_URL}")
+                    },
+                    enabled = isFormValid,
                     shape = RoundedCornerShape(50),
-                    border = BorderStroke(1.dp, Color.Black), // Borde negro
+                    border = BorderStroke(1.dp, Color.Black),
                     modifier = Modifier
-                        .weight(1f) // Cada botón ocupa la mitad del ancho
-                        .padding(start = 8.dp) // Espacio entre botones
+                        .weight(1f)
+                        .padding(start = 8.dp)
                 ) {
-                    Text(text = "Siguiente", fontSize = 18.sp)
+                    if (isLoading) {
+                        Text(text = "Registrando...")
+                    } else {
+                        Text(text = "Siguiente", fontSize = 18.sp)
+                    }
                 }
             }
         }

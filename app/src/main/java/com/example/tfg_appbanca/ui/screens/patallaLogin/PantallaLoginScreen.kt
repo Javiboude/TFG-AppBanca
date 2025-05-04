@@ -144,7 +144,7 @@ fun PantallaLoginScreen(
                     .wrapContentWidth(align = Alignment.CenterHorizontally) // Centra horizontalmente
                     .padding(top = 8.dp)
                     .clickable {
-                        navController.navigate("${Destinations.CREAR_CUENTA_1_URL}")
+                        navController.navigate("${Destinations.CREAR_CUENTA_2_URL}")
                     }
             )
         }

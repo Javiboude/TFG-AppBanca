@@ -1,14 +1,12 @@
 package com.example.tfg_appbanca.data.repositories
 
-import android.util.Log
 import com.example.tfg_appbanca.data.model.BalanceDinero
 import com.example.tfg_appbanca.data.model.Contactos
 import com.example.tfg_appbanca.data.model.Ultimosmovimientos
-import com.example.tfg_appbanca.data.remote.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class PantallaInicioRepository{
+class GetRepository{
      suspend fun fetchContactos(): Contactos? {
          return withContext(Dispatchers.IO) {
              val response = RetrofitInstance.api.getPersonajes().execute()

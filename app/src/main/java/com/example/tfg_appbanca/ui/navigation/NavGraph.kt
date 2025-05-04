@@ -60,7 +60,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Destinations.CREAR_CUENTA_2_URL) {
-            val crearCuenta2ViewModel: CrearCuenta2ViewModel = viewModel()
+            val crearCuenta2ViewModel: CrearCuenta2ViewModel = hiltViewModel()
             CrearCuenta2Screen(
                 navController = navController,
                 crearCuenta2ViewModel = crearCuenta2ViewModel
