@@ -1,22 +1,57 @@
-package com.example.httpclienttest.ui.screens.patallaLogin
+package com.example.tfg_appbanca.ui.screens.patallaLogin
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.tfg_appbanca.data.model.registro.LoginResponse
+import com.example.tfg_appbanca.data.repositories.PostRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PantallaLoginViewModel : ViewModel() {
-    // Estado para los campos de entrada
-    val phoneNumber = mutableStateOf("")
-    val password = mutableStateOf("")
-    val amount = mutableStateOf("")
-    val isPasswordVisible = mutableStateOf(false)
+@HiltViewModel
+class PantallaLoginViewModel @Inject constructor(
+    private val pantallaLoginViewModel: PostRepository
+) : ViewModel() {
 
-    // Función para alternar la visibilidad de la contraseña
-    fun togglePasswordVisibility() {
-        isPasswordVisible.value = !isPasswordVisible.value
+    val numeroTelefono = mutableStateOf("")
+    val contraseña = mutableStateOf("")
+    val cantidadDinero = mutableStateOf("")
+    val contraseñaVisible = mutableStateOf(false)
+    val registerResponse = mutableStateOf<LoginResponse?>(null)
+
+    var loginFallido = mutableStateOf(false)
+    var loginExitoso = mutableStateOf(false)
+
+
+    fun setRegistroFallido(valor: Boolean) {
+        loginFallido.value = valor
     }
 
-    // Función para navegar al registro (ejemplo)
-    fun navigateToRegister() {
-        // Implementa la lógica para navegar al registro aquí
+    fun setLoginExitoso(valor: Boolean) {
+        loginExitoso.value = valor
+    }
+
+    fun togglePasswordVisibility() {
+        contraseñaVisible.value = !contraseñaVisible.value
+    }
+
+    fun login() {
+        val telefono = numeroTelefono.value
+        val password = contraseña.value
+
+        viewModelScope.launch {
+            val respuesta = pantallaLoginViewModel.loginUser(telefono, password)
+            registerResponse.value = respuesta
+            if (respuesta != null) {
+                if (respuesta.user_id != 0) {
+                    loginExitoso.value = true
+                }else{
+                    loginFallido.value = true
+                }
+            }else{
+                loginFallido.value = true
+            }
+        }
     }
 }

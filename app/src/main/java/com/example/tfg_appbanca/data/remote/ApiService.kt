@@ -6,8 +6,11 @@ import com.example.tfg_appbanca.data.model.gets.Contactos
 import com.example.tfg_appbanca.data.model.RegisterResponse
 import com.example.tfg_appbanca.data.model.gets.InfoTarjeta
 import com.example.tfg_appbanca.data.model.gets.Ultimosmovimientos
+import com.example.tfg_appbanca.data.model.registro.LoginRequest
+import com.example.tfg_appbanca.data.model.registro.LoginResponse
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -31,4 +34,7 @@ interface ApiService {
         @Query("telefono") telefono: String,
         @Query("password") password: String
     ): Response<RegisterResponse>
+
+    @POST("login")
+    suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
 }

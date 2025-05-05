@@ -1,8 +1,8 @@
 package com.example.httpclienttest.ui.screens.patallaLogin
 
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,124 +24,149 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
+import com.example.tfg_appbanca.ui.screens.patallaLogin.PantallaLoginViewModel
+
 
 @Composable
 fun PantallaLoginScreen(
     navController: NavController,
-    pantallaLoginViewModel: PantallaLoginViewModel
+    pantallaLoginViewModel: PantallaLoginViewModel = hiltViewModel()
 ) {
 
-    // Wstados del ViewModel
-    val phoneNumber = pantallaLoginViewModel.phoneNumber
-    val password = pantallaLoginViewModel.password
-    val amount = pantallaLoginViewModel.amount
-    val isPasswordVisible = pantallaLoginViewModel.isPasswordVisible
+    val numeroTelefono = pantallaLoginViewModel.numeroTelefono
+    val contraseña = pantallaLoginViewModel.contraseña
+    val cantidadDinero = pantallaLoginViewModel.cantidadDinero
+    val contraseñaVisible = pantallaLoginViewModel.contraseñaVisible
+
+    val loginExitoso by pantallaLoginViewModel.loginExitoso
+    val loginFallido by pantallaLoginViewModel.loginFallido
+
+    val camposCompletos = numeroTelefono.value.isNotBlank() &&
+            contraseña.value.isNotBlank() &&
+            cantidadDinero.value.isNotBlank()
+
+    if (loginFallido == true) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    pantallaLoginViewModel.setRegistroFallido(false)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("Login Fallido") },
+            text = { Text("Ingrese correctamente el numero de telefono o la contraseña") }
+        )
+    }
+
+    LaunchedEffect(loginExitoso) {
+        if (loginExitoso) {
+            navController.navigate(Destinations.PANTALLA_INICIO_URL)
+            pantallaLoginViewModel.setLoginExitoso(false) // reset para que no vuelva a navegar
+        }
+    }
+
 
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Imagen en la parte superior con bordes redondeados
         Image(
-            painter = painterResource(id = R.drawable.fotologin), // Carga la imagen desde recursos
-            contentDescription = "Imagen Edificios", // Descripción para accesibilidad
+            painter = painterResource(id = R.drawable.fotologin),
+            contentDescription = "Imagen Edificios",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxWidth() // Ocupa todo el ancho
-                .height(290.dp) // Altura fija para la imagen
+                .fillMaxWidth()
+                .height(290.dp)
                 .clip(
                     RoundedCornerShape(
                         bottomEnd = 16.dp,
                         bottomStart = 16.dp
                     )
-                ) // Redondea los bordes
+                )
         )
 
-        // Texto "Login" dentro de la imagen, en la parte inferior izquierda
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(260.dp) // Misma altura que la imagen
-                .padding(16.dp) // Padding para el texto
+                .height(260.dp)
+                .padding(16.dp)
         ) {
             Text(
                 text = "Login",
-                color = Color.White, // Color del texto
+                color = Color.White,
                 fontSize = 36.sp,
                 modifier = Modifier
-                    .align(Alignment.BottomStart) // Alinea el texto en la parte inferior izquierda
+                    .align(Alignment.BottomStart)
             )
         }
 
-        // Contenido principal debajo de la imagen
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(top = 350.dp), // Ajusta el espacio para que no se superponga con la imagen
+                .padding(top = 350.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Campo de número de teléfono
+
             OutlinedTextField(
-                value = phoneNumber.value,
-                onValueChange = { phoneNumber.value = it },
+                value = numeroTelefono.value,
+                onValueChange = { numeroTelefono.value = it },
                 label = { Text("Número de teléfono") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Campo de contraseña
             OutlinedTextField(
-                value = password.value,
-                onValueChange = { password.value = it },
+                value = contraseña.value,
+                onValueChange = { contraseña.value = it },
                 label = { Text("Contraseña") },
-                visualTransformation = if (isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (contraseñaVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 trailingIcon = {
                     IconButton(onClick = { pantallaLoginViewModel.togglePasswordVisibility() }) {
                         Icon(
-                            painter = if (isPasswordVisible.value) painterResource(id = R.drawable.eyeopen) // Icono de ojo abierto
-                            else painterResource(id = R.drawable.eyeclose), // Icono de ojo cerrado
-                            contentDescription = if (isPasswordVisible.value) "Ocultar contraseña" else "Mostrar contraseña"
+                            painter = if (contraseñaVisible.value) painterResource(id = R.drawable.eyeopen)
+                            else painterResource(id = R.drawable.eyeclose),
+                            contentDescription = if (contraseñaVisible.value) "Ocultar contraseña" else "Mostrar contraseña"
                         )
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Campo de cantidad de dinero (opcional)
             OutlinedTextField(
-                value = amount.value,
-                onValueChange = { amount.value = it },
+                value = cantidadDinero.value,
+                onValueChange = { cantidadDinero.value = it },
                 label = { Text("Cantidad de dinero en cuenta") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Botón "Siguiente"
             Button(
                 onClick = {
-                    navController.navigate("${Destinations.PANTALLA_INICIO_URL}")
+                    pantallaLoginViewModel.login()
                 },
                 shape = RoundedCornerShape(50),
-                border = BorderStroke(1.dp, Color.Black), // Borde negro
+                border = BorderStroke(1.dp, Color.Black),
+                enabled = camposCompletos,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
                 Text(text = "Siguiente", fontSize = 18.sp)
             }
-
-            // Enlace para registro
             Text(
                 text = "¿No ha hecho el registro? AQUÍ",
                 color = Color.Black,
                 modifier = Modifier
-                    .fillMaxWidth() // Ocupa todo el ancho disponible
-                    .wrapContentWidth(align = Alignment.CenterHorizontally) // Centra horizontalmente
+                    .fillMaxWidth()
+                    .wrapContentWidth(align = Alignment.CenterHorizontally)
                     .padding(top = 8.dp)
                     .clickable {
                         navController.navigate("${Destinations.CREAR_CUENTA_2_URL}")

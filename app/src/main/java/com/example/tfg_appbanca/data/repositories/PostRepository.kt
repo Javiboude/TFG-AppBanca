@@ -1,6 +1,8 @@
 package com.example.tfg_appbanca.data.repositories
 
 import com.example.tfg_appbanca.data.model.RegisterResponse
+import com.example.tfg_appbanca.data.model.registro.LoginRequest
+import com.example.tfg_appbanca.data.model.registro.LoginResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -21,4 +23,23 @@ class PostRepository {
             }
         }
     }
+
+    // Login de usuario
+    suspend fun loginUser(telefono: String, password: String): LoginResponse? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val loginRequest = LoginRequest(telefono, password)
+                val response = RetrofitInstance.api.loginUser(loginRequest)
+
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    null
+                }
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
+
 }

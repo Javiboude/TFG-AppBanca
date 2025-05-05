@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.IconButton
@@ -187,23 +188,7 @@ fun CrearCuenta2Screen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = { navController.navigate("${Destinations.PANTALLA_LOGIN_URL}") },
-                    shape = RoundedCornerShape(50),
-                    border = BorderStroke(1.dp, Color.Black),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp)
-                ) {
-                    Text(text = "Atrás", fontSize = 18.sp)
-                }
+            Spacer(modifier = Modifier.height(5.dp))
 
                 Button(
                     onClick = {
@@ -214,20 +199,30 @@ fun CrearCuenta2Screen(
 
                         crearCuenta2ViewModel.registerUser(nombre.value, numeroTelefono.value, contraseña.value)
                     },
-                    enabled = isFormValid,
                     shape = RoundedCornerShape(50),
                     border = BorderStroke(1.dp, Color.Black),
+                    enabled = isFormValid,
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
                 ) {
                     if (isLoading) {
                         Text(text = "Registrando...")
                     } else {
                         Text(text = "Siguiente", fontSize = 18.sp)
-                    }
+
                 }
             }
+
+            Text(
+                text = "¿Ya tiene una cuenta? LOGIN",
+                color = Color.Black,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(align = Alignment.CenterHorizontally)
+                    .padding(top = 8.dp)
+                    .clickable { navController.navigate("${Destinations.PANTALLA_LOGIN_URL}") }
+            )
         }
     }
 }

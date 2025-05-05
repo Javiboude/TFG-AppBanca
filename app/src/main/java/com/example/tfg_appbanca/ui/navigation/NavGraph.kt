@@ -14,7 +14,6 @@ import com.example.httpclienttest.ui.screens.pantallaDeCarga.PantallaDeCargaScre
 import com.example.httpclienttest.ui.screens.pantallaDeCarga.PantallaDeCargaViewModel
 import com.example.httpclienttest.ui.screens.pantallaInicio.PantallaInicioScreen
 import com.example.httpclienttest.ui.screens.patallaLogin.PantallaLoginScreen
-import com.example.httpclienttest.ui.screens.patallaLogin.PantallaLoginViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaAhorros.PantallaAhorros
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaBizum.PantallaBizumScreen
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaBizum.PantallaBizumViewModel
@@ -27,6 +26,7 @@ import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.Pantalla
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.PantallaCancelarTarjetaViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.pantallaModificarLimites.PantallaModificarLimites
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.pantallaModificarLimites.PantallaModificarLimitesViewModel
+import com.example.tfg_appbanca.ui.screens.patallaLogin.PantallaLoginViewModel
 
 
 @Composable
@@ -44,7 +44,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Destinations.PANTALLA_LOGIN_URL) {
-            val pantallaLoginViewModel: PantallaLoginViewModel = viewModel()
+            val pantallaLoginViewModel: PantallaLoginViewModel = hiltViewModel()
             PantallaLoginScreen(
                 navController = navController,
                 pantallaLoginViewModel = pantallaLoginViewModel
