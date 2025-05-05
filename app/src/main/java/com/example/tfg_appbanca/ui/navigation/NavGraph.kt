@@ -23,8 +23,8 @@ import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaTranferencia.P
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaTranferencia.PantallaTransferenciaViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.PantallaTarjetasScreen
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.PantallaTarjetasViewModel
-import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.cancelarTarjeta.PantallaCancelarTarjetaScreen
-import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.cancelarTarjeta.PantallaCancelarTarjetaViewModel
+import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.PantallaCancelarTarjetaScreen
+import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.PantallaCancelarTarjetaViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.pantallaModificarLimites.PantallaModificarLimites
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.pantallaModificarLimites.PantallaModificarLimitesViewModel
 
@@ -105,7 +105,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Destinations.PANTALLA_CANCELAR_TARJETA_URL) {
-            val pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel = viewModel()
+            val pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel = hiltViewModel()
             PantallaCancelarTarjetaScreen(
                 navController = navController,
                 pantallaCancelarTarjetaViewModel = pantallaCancelarTarjetaViewModel

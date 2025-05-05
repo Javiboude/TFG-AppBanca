@@ -1,10 +1,11 @@
-package com.example.tfg_appbanca.ui.screens.pantallaTarjetas.cancelarTarjeta
+package com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -12,6 +13,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
@@ -19,14 +22,10 @@ import com.example.tfg_appbanca.R
 @Composable
 fun PantallaCancelarTarjetaScreen(
     navController: NavController,
-    pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel
+    pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel = hiltViewModel()
 ) {
     val saldoCuenta = pantallaCancelarTarjetaViewModel.saldoCuenta
-    val titular = pantallaCancelarTarjetaViewModel.titular
-    val cuentaAsociada = pantallaCancelarTarjetaViewModel.cuentaAsociada
-    val fechaCaducidad = pantallaCancelarTarjetaViewModel.fechaCaducidad
-    val cvc = pantallaCancelarTarjetaViewModel.cvc
-    val tipo = pantallaCancelarTarjetaViewModel.tipo
+    val infoTarjeta by pantallaCancelarTarjetaViewModel.infoTarjeta.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -39,16 +38,18 @@ fun PantallaCancelarTarjetaScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        InfoTarjeta(
-            titular = titular,
-            cuentaAsociada = cuentaAsociada,
-            fechaCaducidad = fechaCaducidad,
-            cvc = cvc,
-            tipo = tipo,
-            enviar = {
-                navController.navigate("${Destinations.PANTALLA_TARJETAS_URL}")
-            }
-        )
+        infoTarjeta?.let {
+            InfoTarjeta(
+                titular = it.titular,
+                cuentaAsociada = it.cuentaAsociada,
+                fechaCaducidad = it.fechaCaducidad,
+                cvc = it.cvc,
+                tipo = it.tipo,
+                enviar = {
+                    navController.navigate("${Destinations.PANTALLA_TARJETAS_URL}")
+                }
+            )
+        }
     }
 }
 

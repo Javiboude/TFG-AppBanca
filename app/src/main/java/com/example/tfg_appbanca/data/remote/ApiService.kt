@@ -4,6 +4,7 @@ package com.example.tfg_appbanca.data.remote
 import com.example.tfg_appbanca.data.model.gets.BalanceDinero
 import com.example.tfg_appbanca.data.model.gets.Contactos
 import com.example.tfg_appbanca.data.model.RegisterResponse
+import com.example.tfg_appbanca.data.model.gets.InfoTarjeta
 import com.example.tfg_appbanca.data.model.gets.Ultimosmovimientos
 import retrofit2.Call
 import retrofit2.Response
@@ -20,6 +21,9 @@ interface ApiService {
 
     @GET("UltimosMovimientos")
     fun getUltimosMovimientos(): Call<Ultimosmovimientos>
+
+    @GET("Infotarjeta")
+    fun getInfoTarjeta(): Call<InfoTarjeta>
 
     @POST("register")
     suspend fun registerUser(
