@@ -46,8 +46,7 @@ fun PantallaLoginScreen(
     val loginFallido by pantallaLoginViewModel.loginFallido
 
     val camposCompletos = numeroTelefono.value.isNotBlank() &&
-            contraseña.value.isNotBlank() &&
-            cantidadDinero.value.isNotBlank()
+            contraseña.value.isNotBlank()
 
     if (loginFallido == true) {
         androidx.compose.material3.AlertDialog(

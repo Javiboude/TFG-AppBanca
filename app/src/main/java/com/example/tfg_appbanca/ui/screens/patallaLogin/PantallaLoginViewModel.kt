@@ -3,7 +3,7 @@ package com.example.tfg_appbanca.ui.screens.patallaLogin
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg_appbanca.data.model.registro.LoginResponse
+import com.example.tfg_appbanca.data.model.login.LoginResponse
 import com.example.tfg_appbanca.data.repositories.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -39,9 +39,10 @@ class PantallaLoginViewModel @Inject constructor(
     fun login() {
         val telefono = numeroTelefono.value
         val password = contraseña.value
+        val cantidadDinero = cantidadDinero.value.toFloatOrNull() ?: 0F
 
         viewModelScope.launch {
-            val respuesta = pantallaLoginViewModel.loginUser(telefono, password)
+            val respuesta = pantallaLoginViewModel.loginUser(telefono, password, cantidadDinero)
             registerResponse.value = respuesta
             if (respuesta != null) {
                 if (respuesta.user_id != 0) {
