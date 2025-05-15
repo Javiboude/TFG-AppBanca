@@ -1,11 +1,14 @@
 package com.example.httpclienttest.ui.navigation
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.httpclienttest.ui.screens.crearCuenta1.CrearCuenta1Screen
 import com.example.httpclienttest.ui.screens.crearCuenta1.CrearCuenta1ViewModel
 import com.example.httpclienttest.ui.screens.crearCuenta2.CrearCuenta2Screen
@@ -27,8 +30,10 @@ import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.Pantalla
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.pantallaModificarLimites.PantallaModificarLimites
 import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.pantallaModificarLimites.PantallaModificarLimitesViewModel
 import com.example.tfg_appbanca.ui.screens.patallaLogin.PantallaLoginViewModel
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun NavGraph(navController: NavHostController) {
     NavHost(
@@ -45,9 +50,12 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Destinations.PANTALLA_LOGIN_URL) {
             val pantallaLoginViewModel: PantallaLoginViewModel = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
+
             PantallaLoginScreen(
                 navController = navController,
-                pantallaLoginViewModel = pantallaLoginViewModel
+                pantallaLoginViewModel = pantallaLoginViewModel,
+                sharedViewModel = sharedViewModel
             )
         }
 
@@ -69,9 +77,12 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Destinations.PANTALLA_INICIO_URL) {
             val pantallaInicioViewModel: PantallaInicioViewModel = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
+
             PantallaInicioScreen(
                 navController = navController,
-                pantallaInicioViewModel = pantallaInicioViewModel
+                pantallaInicioViewModel = pantallaInicioViewModel,
+                sharedViewModel = sharedViewModel
             )
         }
 

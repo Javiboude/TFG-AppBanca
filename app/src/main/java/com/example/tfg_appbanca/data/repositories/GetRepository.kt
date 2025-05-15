@@ -1,5 +1,6 @@
 package com.example.tfg_appbanca.data.repositories
 
+import android.util.Log
 import com.example.tfg_appbanca.data.model.gets.BalanceDinero
 import com.example.tfg_appbanca.data.model.gets.Contactos
 import com.example.tfg_appbanca.data.model.gets.InfoTarjeta
@@ -55,13 +56,15 @@ class GetRepository{
 
     suspend fun getInfoPersonajeByNumeroTelefono(numeroTelefono: String): datosUsuario? {
         return withContext(Dispatchers.IO) {
-            val response =
-                RetrofitInstance.api.getDatosUsuario(numeroTelefono).execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
+            try {
+                // Ahora la respuesta es directamente datosUsuario
+                val response = RetrofitInstance.api.getDatosUsuario(numeroTelefono)
+                Log.d("APIResponse", "Respuesta API: $response")
+                response // Devolvemos directamente el objeto
+            } catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }
     }
- }
+}

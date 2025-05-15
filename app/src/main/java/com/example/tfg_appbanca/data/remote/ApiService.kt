@@ -40,6 +40,6 @@ interface ApiService {
     @POST("login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
 
-    @GET("datosUsuario/{telefono}")
-    suspend fun getDatosUsuario(@Path("telefono") telefono: String): Call<datosUsuario>
+    @GET("datosUsuario/{numeroTelefono}")
+    suspend fun getDatosUsuario(@Path("numeroTelefono") numeroTelefono: String): datosUsuario
 }

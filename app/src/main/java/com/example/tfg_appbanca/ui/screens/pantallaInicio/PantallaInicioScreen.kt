@@ -28,19 +28,24 @@ import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.PantallaInicioViewModel
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun PantallaInicioScreen(
     navController: NavController,
-    pantallaInicioViewModel: PantallaInicioViewModel = hiltViewModel()
+    pantallaInicioViewModel: PantallaInicioViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val saldoCuenta = pantallaInicioViewModel.saldoCuenta
+    val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
     val contactos by pantallaInicioViewModel.contactos.collectAsStateWithLifecycle()
     val balanceDinero by pantallaInicioViewModel.balanceDinero.collectAsStateWithLifecycle()
+    val usuario by pantallaInicioViewModel.usuario.collectAsStateWithLifecycle()
 
 
     LaunchedEffect(Unit) {
         pantallaInicioViewModel.cargarUltimosMovimientos()
+        pantallaInicioViewModel.getUsuarioInfo(numeroTelefono)
     }
 
 
@@ -51,17 +56,19 @@ fun PantallaInicioScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         item {
             balanceDinero?.let {
-                TablaIngresos(
-                    ingresos = it.ingresos,
-                    gastos = it.gastos,
-                    meses = it.meses,
-                    balanceTotal = saldoCuenta,
-                )
+                if (usuario != null) {
+                    TablaIngresos(
+                        ingresos = it.ingresos,
+                        gastos = it.gastos,
+                        meses = it.meses,
+                        balanceTotal = usuario!!.dinero,
+                    )
+                }
             }
         }
+
 
         item { Spacer(modifier = Modifier.height(32.dp)) }
 
@@ -277,7 +284,7 @@ fun TablaIngresos(
     ingresos: List<Float>,
     gastos: List<Float>,
     meses: List<String>,
-    balanceTotal: String
+    balanceTotal: Float
 ) {
     val valorMaximo = maxOf(ingresos.maxOrNull() ?: 0f, gastos.maxOrNull() ?: 0f)
     val barra = 20.dp

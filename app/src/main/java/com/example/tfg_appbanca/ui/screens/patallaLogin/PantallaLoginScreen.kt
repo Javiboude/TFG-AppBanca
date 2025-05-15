@@ -29,14 +29,16 @@ import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
 import com.example.tfg_appbanca.ui.screens.patallaLogin.PantallaLoginViewModel
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun PantallaLoginScreen(
     navController: NavController,
-    pantallaLoginViewModel: PantallaLoginViewModel = hiltViewModel()
+    pantallaLoginViewModel: PantallaLoginViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-
     val numeroTelefono = pantallaLoginViewModel.numeroTelefono
     val contraseña = pantallaLoginViewModel.contraseña
     val cantidadDinero = pantallaLoginViewModel.cantidadDinero
@@ -65,10 +67,12 @@ fun PantallaLoginScreen(
 
     LaunchedEffect(loginExitoso) {
         if (loginExitoso) {
+            sharedViewModel.setNumeroTelefono(numeroTelefono.value)
             navController.navigate(Destinations.PANTALLA_INICIO_URL)
-            pantallaLoginViewModel.setLoginExitoso(false) // reset para que no vuelva a navegar
+            pantallaLoginViewModel.setLoginExitoso(false)
         }
     }
+
 
 
     Box(

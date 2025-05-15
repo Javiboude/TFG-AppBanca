@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg_appbanca.data.model.gets.BalanceDinero
 import com.example.tfg_appbanca.data.model.gets.Movimiento
+import com.example.tfg_appbanca.data.model.gets.datosUsuario
 import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +33,9 @@ class PantallaInicioViewModel @Inject constructor(
 
     var ultimosMovimientos by mutableStateOf(listOf<Movimiento>())
 
+    private val _usuario = MutableStateFlow<datosUsuario?>(null)
+    val usuario: StateFlow<datosUsuario?> = _usuario
+
     init {
         cargarContactos()
         cargarBalance()
@@ -55,11 +59,16 @@ class PantallaInicioViewModel @Inject constructor(
         val movimientos = pantallaInicioRepository.fetchUltimosMovimientos()?.let { infoPersonaje ->
             infoPersonaje.movimientos
         }
-
         if (movimientos != null) {
             this.ultimosMovimientos = movimientos
         }
-
         return this.ultimosMovimientos
+    }
+
+    suspend fun getUsuarioInfo(numeroTelefono: String) {
+        val result = pantallaInicioRepository.getInfoPersonajeByNumeroTelefono(numeroTelefono)
+        if (result != null) {
+            _usuario.value = result
+        }
     }
 }
