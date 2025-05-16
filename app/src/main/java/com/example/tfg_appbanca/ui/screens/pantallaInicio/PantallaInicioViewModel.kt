@@ -22,8 +22,6 @@ class PantallaInicioViewModel @Inject constructor(
     private val pantallaInicioRepository: GetRepository
 ) : ViewModel() {
 
-    val saldoCuenta = "103.00"
-
     private val _contactos = MutableStateFlow<List<String>>(emptyList())
     val contactos: StateFlow<List<String>> = _contactos
 

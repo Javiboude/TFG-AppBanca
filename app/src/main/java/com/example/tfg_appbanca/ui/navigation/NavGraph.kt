@@ -88,9 +88,11 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Destinations.PANTALLA_TARJETAS_URL) {
             val pantallaTarjetasViewModel: PantallaTarjetasViewModel = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
             PantallaTarjetasScreen(
                 navController = navController,
-                pantallaTarjetasViewModel = pantallaTarjetasViewModel
+                pantallaTarjetasViewModel = pantallaTarjetasViewModel,
+                sharedViewModel = sharedViewModel
             )
         }
 
@@ -117,17 +119,21 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Destinations.PANTALLA_CANCELAR_TARJETA_URL) {
             val pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
             PantallaCancelarTarjetaScreen(
                 navController = navController,
-                pantallaCancelarTarjetaViewModel = pantallaCancelarTarjetaViewModel
+                pantallaCancelarTarjetaViewModel = pantallaCancelarTarjetaViewModel,
+                sharedViewModel = sharedViewModel
             )
         }
 
         composable(Destinations.PANTALLA_MODIFICAR_LIMITES_URL) {
-            val pantallaModificarLimitesViewModel: PantallaModificarLimitesViewModel = viewModel()
+            val pantallaModificarLimitesViewModel: PantallaModificarLimitesViewModel = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
             PantallaModificarLimites(
                 navController = navController,
-                pantallaModificarLimitesViewModel = pantallaModificarLimitesViewModel
+                pantallaModificarLimitesViewModel = pantallaModificarLimitesViewModel,
+                sharedViewModel = sharedViewModel
             )
         }
     }

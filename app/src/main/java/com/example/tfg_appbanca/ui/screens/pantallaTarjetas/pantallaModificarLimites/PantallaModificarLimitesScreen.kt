@@ -12,19 +12,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 @Composable
 fun PantallaModificarLimites(
     navController: NavController,
-    pantallaModificarLimitesViewModel: PantallaModificarLimitesViewModel
+    pantallaModificarLimitesViewModel: PantallaModificarLimitesViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
 
     val limiteCajeros = pantallaModificarLimitesViewModel.limiteCajeros
     val limiteComercio = pantallaModificarLimitesViewModel.limiteComercio
-    val saldoCuenta = pantallaModificarLimitesViewModel.saldoCuenta
+    val usuario by pantallaModificarLimitesViewModel.usuario.collectAsStateWithLifecycle()
+    val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
+
+
+    LaunchedEffect(Unit) {
+        pantallaModificarLimitesViewModel.getUsuarioInfo(numeroTelefono)
+    }
 
     Column(
         modifier = Modifier
@@ -32,7 +42,9 @@ fun PantallaModificarLimites(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        TarjetaInfo(saldoCuenta)
+        if (usuario != null) {
+        TarjetaInfo(usuario!!.dinero)
+        }
 
         ModificarLimites(
             limiteCajeros = limiteCajeros,
@@ -48,7 +60,7 @@ fun PantallaModificarLimites(
 
 
 @Composable
-fun TarjetaInfo(saldo: String) {
+fun TarjetaInfo(saldo: Float) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

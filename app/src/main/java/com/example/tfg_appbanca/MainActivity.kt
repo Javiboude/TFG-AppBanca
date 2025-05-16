@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.httpclienttest.ui.navigation.NavGraph
-import com.example.tfg_appbanca.ui.components.BottomNavigationBar
-import com.example.tfg_appbanca.ui.components.TopBar2
-import com.example.tfg_appbanca.ui.components.Topbar
+import com.example.tfg_appbanca.ui.components.botomAppBar.BottomNavigationBar
+import com.example.tfg_appbanca.ui.components.topAppBar.TopBar2
+import com.example.tfg_appbanca.ui.components.topAppBar.Topbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -5,8 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.tfg_appbanca.data.model.gets.Movimiento
+import com.example.tfg_appbanca.data.model.gets.datosUsuario
 import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 import javax.inject.Inject
 
@@ -15,13 +18,18 @@ class PantallaTarjetasViewModel @Inject constructor(
     private val pantallaTarjetasViewModel: GetRepository
 ) : ViewModel() {
 
-    val saldoCuenta = "103.00"
     var ultimosMovimientos by mutableStateOf(listOf<Movimiento>())
 
-    suspend fun cargarUltimosMovimientos(): List<Movimiento>{
-        val movimientos = pantallaTarjetasViewModel.fetchUltimosMovimientos()?.let { infoPersonaje ->
-            infoPersonaje.movimientos
-        }
+    private val _usuario = MutableStateFlow<datosUsuario?>(null)
+    val usuario: StateFlow<datosUsuario?> = _usuario
+
+
+
+    suspend fun cargarUltimosMovimientos(): List<Movimiento> {
+        val movimientos =
+            pantallaTarjetasViewModel.fetchUltimosMovimientos()?.let { infoPersonaje ->
+                infoPersonaje.movimientos
+            }
 
         if (movimientos != null) {
             this.ultimosMovimientos = movimientos
@@ -30,4 +38,10 @@ class PantallaTarjetasViewModel @Inject constructor(
         return this.ultimosMovimientos
     }
 
+    suspend fun getUsuarioInfo(numeroTelefono: String) {
+        val result = pantallaTarjetasViewModel.getInfoPersonajeByNumeroTelefono(numeroTelefono)
+        if (result != null) {
+            _usuario.emit(result)
+        }
+    }
 }

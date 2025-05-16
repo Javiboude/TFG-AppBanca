@@ -1,8 +1,5 @@
-package com.example.tfg_appbanca.ui.screens.pantallaTarjetas.pantallaModificarLimites
+package com.example.tfg_appbanca.ui.components.topAppBar
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.tfg_appbanca.data.model.gets.datosUsuario
 import com.example.tfg_appbanca.data.repositories.GetRepository
@@ -12,21 +9,19 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class PantallaModificarLimitesViewModel  @Inject constructor(
-    private val pantallaModificarLimitesViewModel: GetRepository
-) : ViewModel() {
-
-
-    var limiteCajeros by mutableStateOf("")
-    var limiteComercio by mutableStateOf("")
+class TopAppBarViewModel @Inject constructor(
+     private val topAppBarViewModel: GetRepository
+ ) : ViewModel() {
 
     private val _usuario = MutableStateFlow<datosUsuario?>(null)
     val usuario: StateFlow<datosUsuario?> = _usuario
 
     suspend fun getUsuarioInfo(numeroTelefono: String) {
-        val result = pantallaModificarLimitesViewModel.getInfoPersonajeByNumeroTelefono(numeroTelefono)
+        val result = topAppBarViewModel.getInfoPersonajeByNumeroTelefono(numeroTelefono)
         if (result != null) {
             _usuario.emit(result)
         }
     }
 }
+
+

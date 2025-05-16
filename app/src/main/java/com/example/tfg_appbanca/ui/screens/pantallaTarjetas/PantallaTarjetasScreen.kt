@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,20 +17,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
-import com.example.tfg_appbanca.ui.screens.pantallaInicio.PantallaInicioViewModel
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 @Composable
 fun PantallaTarjetasScreen(
     navController: NavController,
-    pantallaTarjetasViewModel: PantallaTarjetasViewModel = hiltViewModel()
+    pantallaTarjetasViewModel: PantallaTarjetasViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val saldoCuenta = pantallaTarjetasViewModel.saldoCuenta
+    val usuario by pantallaTarjetasViewModel.usuario.collectAsStateWithLifecycle()
+    val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         pantallaTarjetasViewModel.cargarUltimosMovimientos()
+        pantallaTarjetasViewModel.getUsuarioInfo(numeroTelefono)
     }
 
     LazyColumn(
@@ -39,7 +44,9 @@ fun PantallaTarjetasScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            TarjetaInfo(saldo = saldoCuenta)
+            if (usuario != null) {
+            TarjetaInfo(saldo = usuario!!.dinero)
+            }
             Spacer(modifier = Modifier.height(40.dp))
             AccionesRapidas(
                 onModificarLimitesClick = { navController.navigate("${Destinations.PANTALLA_MODIFICAR_LIMITES_URL}") },
@@ -68,7 +75,7 @@ fun PantallaTarjetasScreen(
 }
 
 @Composable
-fun TarjetaInfo(saldo: String) {
+fun TarjetaInfo(saldo: Float) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

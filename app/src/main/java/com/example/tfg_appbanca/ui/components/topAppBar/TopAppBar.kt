@@ -1,4 +1,4 @@
-package com.example.tfg_appbanca.ui.components
+package com.example.tfg_appbanca.ui.components.topAppBar
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -24,12 +25,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Topbar(currentRoute: MutableState<String>) {
+fun Topbar(
+    currentRoute: MutableState<String>,
+    topAppBarViewModel: TopAppBarViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
+) {
 
     val estadoPagina by remember { derivedStateOf {
         if (currentRoute.value == Destinations.PANTALLA_INICIO_URL) {
@@ -44,9 +52,15 @@ fun Topbar(currentRoute: MutableState<String>) {
     }
     }
 
-    val nombreUsuario = "Javier"
+    val usuario by topAppBarViewModel.usuario.collectAsStateWithLifecycle()
+    val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
 
-    // Modificador para el TopBar
+    LaunchedEffect(numeroTelefono) {
+        if (numeroTelefono.isNotEmpty()) {
+            topAppBarViewModel.getUsuarioInfo(numeroTelefono)
+        }
+    }
+
     val topBarModifier = Modifier
         .fillMaxWidth()
         .height(72.dp)
@@ -71,15 +85,15 @@ fun Topbar(currentRoute: MutableState<String>) {
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(start = 13.dp) // Aumenté el padding izquierdo
+                        modifier = Modifier.padding(start = 13.dp)
                     ) {
                         Icon(
                             painter = painterResource(id = com.example.tfg_appbanca.R.drawable.person),
                             contentDescription = "Avatar",
-                            modifier = Modifier.size(44.dp) // Icono más grande
+                            modifier = Modifier.size(44.dp)
                         )
 
-                        Spacer(modifier = Modifier.width(16.dp)) // Más espacio entre icono y texto
+                        Spacer(modifier = Modifier.width(16.dp))
 
                         Column {
                             Text(
@@ -88,18 +102,18 @@ fun Topbar(currentRoute: MutableState<String>) {
                                 fontWeight = FontWeight.Normal,
                                 color = Color.Gray
                             )
-                            Text(
-                                text = nombreUsuario,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = Color.Black
-                            )
+                                Text(
+                                    text = usuario?.nombre ?: "Usuario",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Color.Black
+                                )
                         }
                     }
 
 
                     Icon(
-                        painter = painterResource(id = com.example.tfg_appbanca.R.drawable.ajustes),
+                        painter = painterResource(id = R.drawable.ajustes),
                         contentDescription = "Ajustes",
                         modifier = Modifier
                             .size(60.dp)

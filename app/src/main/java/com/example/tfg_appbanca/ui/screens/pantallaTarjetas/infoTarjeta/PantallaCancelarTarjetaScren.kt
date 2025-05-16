@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,14 +19,21 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 @Composable
 fun PantallaCancelarTarjetaScreen(
     navController: NavController,
-    pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel = hiltViewModel()
+    pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    val saldoCuenta = pantallaCancelarTarjetaViewModel.saldoCuenta
     val infoTarjeta by pantallaCancelarTarjetaViewModel.infoTarjeta.collectAsStateWithLifecycle()
+    val usuario by pantallaCancelarTarjetaViewModel.usuario.collectAsStateWithLifecycle()
+    val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        pantallaCancelarTarjetaViewModel.getUsuarioInfo(numeroTelefono)
+    }
 
     Column(
         modifier = Modifier
@@ -34,13 +42,16 @@ fun PantallaCancelarTarjetaScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TarjetaInfo(saldoCuenta)
+        if (usuario != null) {
+        TarjetaInfo(usuario!!.dinero)
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         infoTarjeta?.let {
+            if (usuario != null) {
             InfoTarjeta(
-                titular = it.titular,
+                titular = usuario!!.nombre,
                 cuentaAsociada = it.cuentaAsociada,
                 fechaCaducidad = it.fechaCaducidad,
                 cvc = it.cvc,
@@ -49,12 +60,13 @@ fun PantallaCancelarTarjetaScreen(
                     navController.navigate("${Destinations.PANTALLA_TARJETAS_URL}")
                 }
             )
+            }
         }
     }
 }
 
 @Composable
-fun TarjetaInfo(saldo: String) {
+fun TarjetaInfo(saldo: Float) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
