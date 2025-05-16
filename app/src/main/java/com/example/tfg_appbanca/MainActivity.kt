@@ -1,5 +1,6 @@
 package com.example.tfg_appbanca
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,12 +13,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.httpclienttest.ui.navigation.NavGraph
 import com.example.tfg_appbanca.ui.components.botomAppBar.BottomNavigationBar
+import com.example.tfg_appbanca.ui.components.topAppBar.TopAppBarViewModel
 import com.example.tfg_appbanca.ui.components.topAppBar.TopBar2
 import com.example.tfg_appbanca.ui.components.topAppBar.Topbar
+import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.PantallaCancelarTarjetaScreen
+import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.PantallaCancelarTarjetaViewModel
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +36,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
@@ -42,6 +49,7 @@ fun MyApp() {
     }
 
     Scaffold(
+
         topBar = {
             if (currentRoute.value != Destinations.PANTALLA_DE_CARGA_URL &&
                 currentRoute.value != Destinations.PANTALLA_LOGIN_URL &&
@@ -52,7 +60,10 @@ fun MyApp() {
                 currentRoute.value != Destinations.PANTALLA_MODIFICAR_LIMITES_URL &&
                 currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL
             ) {
-                Topbar(currentRoute)
+                Topbar(
+                    currentRoute = currentRoute,
+                    navController = navController
+                )
             } else if (
                 currentRoute.value == Destinations.PANTALLA_BIZUM_URL ||
                 currentRoute.value == Destinations.PANTALLA_TRANSFERENCIA_URL ||

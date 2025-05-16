@@ -10,16 +10,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopAppBarViewModel @Inject constructor(
-     private val topAppBarViewModel: GetRepository
- ) : ViewModel() {
-
+    private val repository: GetRepository
+) : ViewModel() {
     private val _usuario = MutableStateFlow<datosUsuario?>(null)
     val usuario: StateFlow<datosUsuario?> = _usuario
 
     suspend fun getUsuarioInfo(numeroTelefono: String) {
-        val result = topAppBarViewModel.getInfoPersonajeByNumeroTelefono(numeroTelefono)
-        if (result != null) {
-            _usuario.emit(result)
+        repository.getInfoPersonajeByNumeroTelefono(numeroTelefono)?.let { user ->
+            _usuario.value = user
         }
     }
 }

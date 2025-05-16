@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
 import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
@@ -36,7 +37,7 @@ import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 fun Topbar(
     currentRoute: MutableState<String>,
     topAppBarViewModel: TopAppBarViewModel = hiltViewModel(),
-    sharedViewModel: SharedViewModel = hiltViewModel()
+    navController: NavController,
 ) {
 
     val estadoPagina by remember { derivedStateOf {
@@ -52,11 +53,16 @@ fun Topbar(
     }
     }
 
+    val sharedViewModel: SharedViewModel = hiltViewModel(
+        navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL)
+    )
+
     val usuario by topAppBarViewModel.usuario.collectAsStateWithLifecycle()
     val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
 
-    LaunchedEffect(numeroTelefono) {
-        if (numeroTelefono.isNotEmpty()) {
+    // Efecto para cargar usuario solo cuando sea necesario
+    LaunchedEffect(usuario, numeroTelefono) {
+        if (usuario == null && numeroTelefono.isNotEmpty()) {
             topAppBarViewModel.getUsuarioInfo(numeroTelefono)
         }
     }
