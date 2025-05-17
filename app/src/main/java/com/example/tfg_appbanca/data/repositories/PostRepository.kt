@@ -9,10 +9,10 @@ import kotlinx.coroutines.withContext
 
 class PostRepository {
 
-    suspend fun registerUser(nombre: String, telefono: String, password: String): RegisterResponse? {
+    suspend fun registerUser(nombre: String, telefono: String, password: String, dinero: Float): RegisterResponse? {
         return withContext(Dispatchers.IO) {
             try {
-                val response = RetrofitInstance.api.registerUser(nombre, telefono, password)
+                val response = RetrofitInstance.api.registerUser(nombre, telefono, password, dinero)
 
                 if (response.isSuccessful) {
                     response.body()
@@ -26,10 +26,10 @@ class PostRepository {
     }
 
     // Login de usuario
-    suspend fun loginUser(telefono: String, password: String, dinero: Float): LoginResponse? {
+    suspend fun loginUser(telefono: String, password: String): LoginResponse? {
         return withContext(Dispatchers.IO) {
             try {
-                val loginRequest = LoginRequest(telefono, password, dinero)
+                val loginRequest = LoginRequest(telefono, password)
                 val response = RetrofitInstance.api.loginUser(loginRequest)
 
                 if (response.isSuccessful) {

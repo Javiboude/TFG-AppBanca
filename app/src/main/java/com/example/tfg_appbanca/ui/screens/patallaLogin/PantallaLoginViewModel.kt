@@ -16,7 +16,6 @@ class PantallaLoginViewModel @Inject constructor(
 
     val numeroTelefono = mutableStateOf("")
     val contraseña = mutableStateOf("")
-    val cantidadDinero = mutableStateOf("")
     val contraseñaVisible = mutableStateOf(false)
     val registerResponse = mutableStateOf<LoginResponse?>(null)
 
@@ -39,10 +38,9 @@ class PantallaLoginViewModel @Inject constructor(
     fun login() {
         val telefono = numeroTelefono.value
         val password = contraseña.value
-        val cantidadDinero = cantidadDinero.value.toFloatOrNull() ?: 0F
 
         viewModelScope.launch {
-            val respuesta = pantallaLoginViewModel.loginUser(telefono, password, cantidadDinero)
+            val respuesta = pantallaLoginViewModel.loginUser(telefono, password)
             registerResponse.value = respuesta
             if (respuesta != null) {
                 if (respuesta.user_id != 0) {

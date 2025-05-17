@@ -31,9 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
-import com.example.httpclienttest.ui.screens.crearCuenta1.CrearCuenta1ViewModel
 import com.example.tfg_appbanca.R
-import com.example.tfg_appbanca.data.model.RegisterResponse
 
 @Composable
 fun CrearCuenta2Screen(
@@ -45,13 +43,15 @@ fun CrearCuenta2Screen(
     val contraseñaVisible = crearCuenta2ViewModel.contraseñaVisible
     val confirmarContraseña = crearCuenta2ViewModel.confirmarContraseña
     val numeroTelefono = crearCuenta2ViewModel.numeroTelefono
+    val cantidadDinero = crearCuenta2ViewModel.cantidadDinero
 
     val isLoading = crearCuenta2ViewModel.isLoading.value
 
     val isFormValid = nombre.value.isNotBlank() &&
             numeroTelefono.value.isNotBlank() &&
             contraseña.value.isNotBlank() &&
-            confirmarContraseña.value.isNotBlank()
+            confirmarContraseña.value.isNotBlank() &&
+            cantidadDinero.value > 0.toString()
 
     val registroExitoso by crearCuenta2ViewModel.registroExitoso
 
@@ -97,7 +97,7 @@ fun CrearCuenta2Screen(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(290.dp)
+                .height(270.dp)
                 .clip(
                     RoundedCornerShape(
                         bottomEnd = 16.dp,
@@ -129,9 +129,8 @@ fun CrearCuenta2Screen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(15.dp))
+            Spacer(modifier = Modifier.height(17.dp))
 
-            Spacer(modifier = Modifier.height(10.dp))
 
             // Campo Nombre
             OutlinedTextField(
@@ -188,7 +187,14 @@ fun CrearCuenta2Screen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(5.dp))
+            OutlinedTextField(
+                value = cantidadDinero.value,
+                onValueChange = { cantidadDinero.value = it },
+                label = { Text("Cantidad de dinero en cuenta") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = Modifier.fillMaxWidth()
+            )
+
 
                 Button(
                     onClick = {
@@ -197,7 +203,7 @@ fun CrearCuenta2Screen(
                             return@Button
                         }
 
-                        crearCuenta2ViewModel.registerUser(nombre.value, numeroTelefono.value, contraseña.value)
+                        crearCuenta2ViewModel.registerUser(nombre.value, numeroTelefono.value, contraseña.value, cantidadDinero.value)
                     },
                     shape = RoundedCornerShape(50),
                     border = BorderStroke(1.dp, Color.Black),

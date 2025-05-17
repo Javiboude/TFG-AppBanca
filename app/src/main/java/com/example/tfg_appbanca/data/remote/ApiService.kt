@@ -35,6 +35,7 @@ interface ApiService {
         @Query("nombre") nombre: String,
         @Query("telefono") telefono: String,
         @Query("password") password: String,
+        @Query("dinero") dinero: Float,
     ): Response<RegisterResponse>
 
     @POST("login")

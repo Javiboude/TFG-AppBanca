@@ -40,7 +40,6 @@ fun PantallaLoginScreen(
 ) {
     val numeroTelefono = pantallaLoginViewModel.numeroTelefono
     val contraseña = pantallaLoginViewModel.contraseña
-    val cantidadDinero = pantallaLoginViewModel.cantidadDinero
     val contraseñaVisible = pantallaLoginViewModel.contraseñaVisible
 
     val loginExitoso by pantallaLoginViewModel.loginExitoso
@@ -139,14 +138,6 @@ fun PantallaLoginScreen(
                         )
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = cantidadDinero.value,
-                onValueChange = { cantidadDinero.value = it },
-                label = { Text("Cantidad de dinero en cuenta") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
 

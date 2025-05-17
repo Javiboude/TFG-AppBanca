@@ -13,17 +13,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.httpclienttest.ui.navigation.NavGraph
 import com.example.tfg_appbanca.ui.components.botomAppBar.BottomNavigationBar
-import com.example.tfg_appbanca.ui.components.topAppBar.TopAppBarViewModel
 import com.example.tfg_appbanca.ui.components.topAppBar.TopBar2
 import com.example.tfg_appbanca.ui.components.topAppBar.Topbar
-import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.PantallaCancelarTarjetaScreen
-import com.example.tfg_appbanca.ui.screens.pantallaTarjetas.infoTarjeta.PantallaCancelarTarjetaViewModel
-import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

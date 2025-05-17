@@ -1,6 +1,5 @@
 package com.example.httpclienttest.ui.screens.crearCuenta2
 
-import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,6 +20,7 @@ class CrearCuenta2ViewModel @Inject constructor(
     val contraseña = mutableStateOf("")
     val confirmarContraseña = mutableStateOf("")
     val contraseñaVisible = mutableStateOf(false)
+    val cantidadDinero = mutableStateOf("")
     val registerResponse = mutableStateOf<RegisterResponse?>(null)
     val isLoading = mutableStateOf(false)
 
@@ -40,11 +40,18 @@ class CrearCuenta2ViewModel @Inject constructor(
         contraseñaVisible.value = !contraseñaVisible.value
     }
 
-    fun registerUser(nombre: String, numeroTelefono: String, contraseña: String) {
-        if (nombre.isNotEmpty() && numeroTelefono.isNotEmpty() && contraseña.isNotEmpty()) {
+    fun registerUser(nombre: String, numeroTelefono: String, contraseña: String, dinero: String) {
+        if (nombre.isNotEmpty() && numeroTelefono.isNotEmpty() && contraseña.isNotEmpty() && dinero.isNotEmpty()) {
+
+            val dineroFloat = try {
+                dinero.toFloat()
+            } catch (e: NumberFormatException) {
+                0f
+            }
+
             isLoading.value = true
             viewModelScope.launch {
-                val response = pantallaCrearCuenta2.registerUser(nombre, numeroTelefono, contraseña)
+                val response = pantallaCrearCuenta2.registerUser(nombre, numeroTelefono, contraseña, dineroFloat)
                 isLoading.value = false
                 registerResponse.value = response
                 if (response != null) {
