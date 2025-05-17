@@ -5,18 +5,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 @Composable
 fun PantallaTransferenciaScreen(
     navController: NavController,
-    pantallaTransferenciaViewModel : PantallaTransferenciaViewModel
+    pantallaTransferenciaViewModel : PantallaTransferenciaViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
     // Collect state from ViewModel
     val iban = pantallaTransferenciaViewModel.iban
@@ -24,8 +30,12 @@ fun PantallaTransferenciaScreen(
     val personaDestinatario = pantallaTransferenciaViewModel.personaDestinatario
     val cantidad = pantallaTransferenciaViewModel.cantidad
     val concepto = pantallaTransferenciaViewModel.concepto
-    val saldoCuenta = pantallaTransferenciaViewModel.saldoCuenta
+    val usuario by pantallaTransferenciaViewModel.usuario.collectAsStateWithLifecycle()
+    val numeroTelefonoUsuario by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        pantallaTransferenciaViewModel.getUsuarioInfo(numeroTelefonoUsuario)
+    }
 
     Column(
         modifier = Modifier
@@ -33,7 +43,9 @@ fun PantallaTransferenciaScreen(
             .fillMaxSize()
     ) {
 
-        TarjetaCuenta(saldoCuenta)
+        if (usuario != null) {
+            TarjetaCuenta(usuario!!.dinero)
+        }
 
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -164,7 +176,7 @@ private fun TransferForm(
 
 
 @Composable
-private fun TarjetaCuenta(saldoCuenta: String) {
+private fun TarjetaCuenta(saldoCuenta: Float) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

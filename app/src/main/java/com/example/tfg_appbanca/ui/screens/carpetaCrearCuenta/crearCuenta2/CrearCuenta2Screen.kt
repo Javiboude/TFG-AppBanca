@@ -18,10 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -54,7 +52,6 @@ fun CrearCuenta2Screen(
             cantidadDinero.value > 0.toString()
 
     val registroExitoso by crearCuenta2ViewModel.registroExitoso
-
     val registroFallido by crearCuenta2ViewModel.registroFallido
 
     Box(
@@ -109,7 +106,7 @@ fun CrearCuenta2Screen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(280.dp)
+                .height(260.dp)
                 .padding(16.dp)
         ) {
             Text(
@@ -125,11 +122,11 @@ fun CrearCuenta2Screen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(top = 280.dp),
+                .padding(top = 270.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(17.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
 
             // Campo Nombre

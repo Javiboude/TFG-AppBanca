@@ -3,7 +3,7 @@ package com.example.httpclienttest.ui.screens.crearCuenta2
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg_appbanca.data.model.RegisterResponse
+import com.example.tfg_appbanca.data.model.registro.RegisterResponse
 import com.example.tfg_appbanca.data.repositories.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

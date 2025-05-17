@@ -3,12 +3,14 @@ package com.example.tfg_appbanca.data.remote
 
 import com.example.tfg_appbanca.data.model.gets.BalanceDinero
 import com.example.tfg_appbanca.data.model.gets.Contactos
-import com.example.tfg_appbanca.data.model.RegisterResponse
+import com.example.tfg_appbanca.data.model.registro.RegisterResponse
 import com.example.tfg_appbanca.data.model.gets.InfoTarjeta
 import com.example.tfg_appbanca.data.model.gets.Ultimosmovimientos
 import com.example.tfg_appbanca.data.model.gets.datosUsuario
 import com.example.tfg_appbanca.data.model.login.LoginRequest
 import com.example.tfg_appbanca.data.model.login.LoginResponse
+import com.example.tfg_appbanca.data.model.movimientos.BizumRequest
+import com.example.tfg_appbanca.data.model.movimientos.OperacionResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -43,4 +45,9 @@ interface ApiService {
 
     @GET("datosUsuario/{numeroTelefono}")
     suspend fun getDatosUsuario(@Path("numeroTelefono") numeroTelefono: String): datosUsuario
+
+    @POST("/realizar-bizum")
+    suspend fun realizarBizum(
+        @Body request: BizumRequest
+    ): Response<OperacionResponse>
 }

@@ -1,5 +1,6 @@
 package com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaBizum
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,52 +9,91 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.httpclienttest.ui.navigation.Destinations
+import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PantallaBizumScreen(
     navController: NavController,
-    pantallaBizumViewModel : PantallaBizumViewModel
+    viewModel: PantallaBizumViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
+    val numeroTelefonoUsuario by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
 
-    val numeroTelefono = pantallaBizumViewModel.numeroTelefono
-    val cantidad = pantallaBizumViewModel.cantidad
-    val concepto = pantallaBizumViewModel.concepto
-    val saldoCuenta = pantallaBizumViewModel.saldoCuenta
+    val bizumExitoso by viewModel.bizumExitoso
+    val bizumFallido by viewModel.bizumFallido
 
+
+    if (bizumExitoso) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    viewModel.setBizumExitoso(false)
+                    navController.navigate(Destinations.PANTALLA_INICIO_URL)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("Bizum exitoso") },
+            text = { Text("Se ha enviado el dinero correctamente.") }
+        )
+    }
+    if (bizumFallido == true) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    viewModel.setBizumFallido(false)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("Bizum Fallido") },
+            text = { Text("No se ha enviado el bizum.") }
+        )
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.getUsuarioInfo(numeroTelefonoUsuario)
+    }
 
     Column(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxSize()
     ) {
-
-        TarjetaCuenta(saldoCuenta)
+        if (viewModel.usuario.value != null) {
+            TarjetaCuenta(viewModel.usuario.value!!.dinero)
+        }
 
         Spacer(modifier = Modifier.height(60.dp))
 
         Bizum(
-            numeroTelefono = numeroTelefono,
-            onNumeroTelefonoCambio = { pantallaBizumViewModel.numeroTelefono = it },
-            cantidad = cantidad,
-            onCantidadCambio = { pantallaBizumViewModel.cantidad = it },
-            concepto = concepto,
-            onConceptoCambio = { pantallaBizumViewModel.concepto = it },
-            onSubmit = {
-                navController.navigate("${Destinations.PANTALLA_INICIO_URL}")
-            }
+            numeroTelefono = viewModel.numeroTelefono,
+            onNumeroTelefonoCambio = { viewModel.numeroTelefono = it },
+            cantidad = viewModel.cantidad,
+            onCantidadCambio = { viewModel.cantidad = it },
+            concepto = viewModel.concepto,
+            onConceptoCambio = { viewModel.concepto = it },
+            onSubmit = { viewModel.realizarBizum(numeroTelefonoUsuario) }
         )
     }
 }
 
 @Composable
-private fun TarjetaCuenta(saldoCuenta: String) {
+private fun TarjetaCuenta(saldoCuenta: Float) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

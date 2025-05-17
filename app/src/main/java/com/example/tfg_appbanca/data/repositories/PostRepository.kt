@@ -1,8 +1,10 @@
 package com.example.tfg_appbanca.data.repositories
 
-import com.example.tfg_appbanca.data.model.RegisterResponse
+import com.example.tfg_appbanca.data.model.registro.RegisterResponse
 import com.example.tfg_appbanca.data.model.login.LoginRequest
 import com.example.tfg_appbanca.data.model.login.LoginResponse
+import com.example.tfg_appbanca.data.model.movimientos.BizumRequest
+import com.example.tfg_appbanca.data.model.movimientos.OperacionResponse
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -43,4 +45,27 @@ class PostRepository {
         }
     }
 
+    suspend fun realizarBizum(
+        telefonoEmisor: String,
+        telefonoReceptor: String,
+        cantidad: Float,
+        concepto: String
+    ): OperacionResponse? {
+        return try {
+            val request = BizumRequest(
+                telefono_emisor = telefonoEmisor,
+                telefono_receptor = telefonoReceptor,
+                cantidad = cantidad,
+                concepto = concepto
+            )
+            val response = RetrofitInstance.api.realizarBizum(request)
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

@@ -102,18 +102,22 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Destinations.PANTALLA_BIZUM_URL) {
-            val pantallaBizumViewModel: PantallaBizumViewModel = viewModel()
+            val pantallaBizumViewModel: PantallaBizumViewModel = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
             PantallaBizumScreen(
                 navController = navController,
-                pantallaBizumViewModel = pantallaBizumViewModel
+                viewModel = pantallaBizumViewModel,
+                sharedViewModel = sharedViewModel
             )
         }
 
         composable(Destinations.PANTALLA_TRANSFERENCIA_URL) {
-            val pantallaTransferenciaViewModel: PantallaTransferenciaViewModel = viewModel()
+            val pantallaTransferenciaViewModel: PantallaTransferenciaViewModel  = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
             PantallaTransferenciaScreen(
                 navController = navController,
-                pantallaTransferenciaViewModel = pantallaTransferenciaViewModel
+                pantallaTransferenciaViewModel = pantallaTransferenciaViewModel,
+                sharedViewModel = sharedViewModel
             )
         }
 
