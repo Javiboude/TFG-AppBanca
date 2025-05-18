@@ -24,7 +24,7 @@ fun PantallaTransferenciaScreen(
     pantallaTransferenciaViewModel : PantallaTransferenciaViewModel = hiltViewModel(),
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
-    // Collect state from ViewModel
+
     val iban = pantallaTransferenciaViewModel.iban
     val pais = pantallaTransferenciaViewModel.pais
     val personaDestinatario = pantallaTransferenciaViewModel.personaDestinatario
@@ -32,6 +32,40 @@ fun PantallaTransferenciaScreen(
     val concepto = pantallaTransferenciaViewModel.concepto
     val usuario by pantallaTransferenciaViewModel.usuario.collectAsStateWithLifecycle()
     val numeroTelefonoUsuario by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
+
+    val transferenciaExitosa by pantallaTransferenciaViewModel.transferenciaExitosa
+    val transferenciaFallida by pantallaTransferenciaViewModel.transferenciaFallida
+
+
+    if (transferenciaExitosa) {
+        AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    pantallaTransferenciaViewModel.setTransferenciaExitosa(false)
+                    navController.navigate(Destinations.PANTALLA_INICIO_URL)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("Transferencia exitosa") },
+            text = { Text("Se ha enviado el dinero correctamente.") }
+        )
+    }
+    if (transferenciaFallida == true) {
+        AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    pantallaTransferenciaViewModel.setRransferenciaFallida(false)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("Transferencia fallida") },
+            text = { Text("No se ha enviado la transferencia.") }
+        )
+    }
 
     LaunchedEffect(Unit) {
         pantallaTransferenciaViewModel.getUsuarioInfo(numeroTelefonoUsuario)
@@ -49,26 +83,32 @@ fun PantallaTransferenciaScreen(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        TransferForm(
-            iban = iban,
-            onIbanChange = { pantallaTransferenciaViewModel.iban = it },
-            pais = pais,
-            onPaisCambio = { pantallaTransferenciaViewModel.pais = it },
-            personaDestinatario = personaDestinatario,
-            onPersonaDestinatarioCambio = { pantallaTransferenciaViewModel.personaDestinatario = it },
-            cantidad = cantidad,
-            onCantidadCambio = { pantallaTransferenciaViewModel.cantidad = it },
-            concepto = concepto,
-            onConceptoCambio = { pantallaTransferenciaViewModel.concepto = it },
-            onSubmit = {
-                navController.navigate("${Destinations.PANTALLA_INICIO_URL}")
-            }
-        )
+        if (usuario != null) {
+            TransferForm(
+                camposValidos = pantallaTransferenciaViewModel.camposEstanCompletos(),
+                iban = iban,
+                onIbanChange = { pantallaTransferenciaViewModel.iban = it },
+                pais = pais,
+                onPaisCambio = { pantallaTransferenciaViewModel.pais = it },
+                personaDestinatario = personaDestinatario,
+                onPersonaDestinatarioCambio = {
+                    pantallaTransferenciaViewModel.personaDestinatario = it
+                },
+                cantidad = cantidad,
+                onCantidadCambio = { pantallaTransferenciaViewModel.cantidad = it },
+                concepto = concepto,
+                onConceptoCambio = { pantallaTransferenciaViewModel.concepto = it },
+                onSubmit = {
+                    pantallaTransferenciaViewModel.realizarTransferencia(usuario!!.iban)
+                }
+            )
+        }
     }
 }
 
 @Composable
 private fun TransferForm(
+    camposValidos: Boolean,
     iban: String,
     onIbanChange: (String) -> Unit,
     pais: String,
@@ -161,8 +201,10 @@ private fun TransferForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
+            enabled = camposValidos,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF0A1D57),
+                disabledContainerColor = Color(0xFFCCCCCC)
             ),
         ) {
             Text(

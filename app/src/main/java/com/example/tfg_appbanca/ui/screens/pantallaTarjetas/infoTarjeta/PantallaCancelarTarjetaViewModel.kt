@@ -39,5 +39,4 @@ class PantallaCancelarTarjetaViewModel @Inject constructor(
             _usuario.emit(result)
         }
     }
-
 }

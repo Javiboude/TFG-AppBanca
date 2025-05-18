@@ -52,7 +52,7 @@ fun PantallaCancelarTarjetaScreen(
             if (usuario != null) {
             InfoTarjeta(
                 titular = usuario!!.nombre,
-                cuentaAsociada = it.cuentaAsociada,
+                cuentaAsociada = usuario!!.iban,
                 fechaCaducidad = it.fechaCaducidad,
                 cvc = it.cvc,
                 tipo = it.tipo,

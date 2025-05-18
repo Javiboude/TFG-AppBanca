@@ -5,6 +5,7 @@ import com.example.tfg_appbanca.data.model.login.LoginRequest
 import com.example.tfg_appbanca.data.model.login.LoginResponse
 import com.example.tfg_appbanca.data.model.movimientos.BizumRequest
 import com.example.tfg_appbanca.data.model.movimientos.OperacionResponse
+import com.example.tfg_appbanca.data.model.movimientos.TransferenciaRequest
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -59,6 +60,30 @@ class PostRepository {
                 concepto = concepto
             )
             val response = RetrofitInstance.api.realizarBizum(request)
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun realizarTransferencia(
+        iban_emisor: String,
+        iban_receptor: String,
+        cantidad: Float,
+        concepto: String
+    ): OperacionResponse? {
+        return try {
+            val request = TransferenciaRequest(
+                iban_emisor = iban_emisor,
+                iban_receptor = iban_receptor,
+                cantidad = cantidad,
+                concepto = concepto
+            )
+            val response = RetrofitInstance.api.realizarTransferencia(request)
             if (response.isSuccessful) {
                 response.body()
             } else {

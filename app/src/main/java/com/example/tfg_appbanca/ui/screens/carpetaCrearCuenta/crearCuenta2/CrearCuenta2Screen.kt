@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -129,7 +127,6 @@ fun CrearCuenta2Screen(
             Spacer(modifier = Modifier.height(10.dp))
 
 
-            // Campo Nombre
             OutlinedTextField(
                 value = nombre.value,
                 onValueChange = { nombre.value = it },
@@ -146,7 +143,6 @@ fun CrearCuenta2Screen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Campo Contraseña
             OutlinedTextField(
                 value = contraseña.value,
                 onValueChange = { contraseña.value = it },

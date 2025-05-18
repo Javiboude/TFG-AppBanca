@@ -11,6 +11,7 @@ import com.example.tfg_appbanca.data.model.login.LoginRequest
 import com.example.tfg_appbanca.data.model.login.LoginResponse
 import com.example.tfg_appbanca.data.model.movimientos.BizumRequest
 import com.example.tfg_appbanca.data.model.movimientos.OperacionResponse
+import com.example.tfg_appbanca.data.model.movimientos.TransferenciaRequest
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -20,6 +21,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
+
     @GET("Contactos")
     fun getPersonajes(): Call<Contactos>
 
@@ -49,5 +51,10 @@ interface ApiService {
     @POST("/realizar-bizum")
     suspend fun realizarBizum(
         @Body request: BizumRequest
+    ): Response<OperacionResponse>
+
+    @POST("/realizar-transferencia")
+    suspend fun realizarTransferencia(
+        @Body request: TransferenciaRequest
     ): Response<OperacionResponse>
 }
