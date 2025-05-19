@@ -22,13 +22,13 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("Contactos")
+    @GET("contactos")
     fun getPersonajes(): Call<Contactos>
 
     @GET("BalanceDinero")
     fun getBalanceDinero(): Call<BalanceDinero>
 
-    @GET("UltimosMovimientos")
+    @GET("ultimos-movimientos")
     fun getUltimosMovimientos(): Call<Ultimosmovimientos>
 
     @GET("Infotarjeta")

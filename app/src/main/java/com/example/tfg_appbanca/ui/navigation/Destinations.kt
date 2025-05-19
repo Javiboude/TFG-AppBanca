@@ -12,4 +12,5 @@ object Destinations {
     const val PANTALLA_TRANSFERENCIA_URL = "pantalla-transferencia"
     const val PANTALLA_MODIFICAR_LIMITES_URL = "pantalla-modificar-limites"
     const val PANTALLA_CANCELAR_TARJETA_URL = "pantalla-cancelar-tarjeta"
+    const val PANTALLA_AJUSTES = "pantalla-ajustes"
 }

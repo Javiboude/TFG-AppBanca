@@ -29,7 +29,6 @@ import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.PantallaInicioViewModel
 import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
-import kotlinx.coroutines.delay
 
 @Composable
 fun PantallaInicioScreen(

@@ -53,7 +53,8 @@ fun MyApp() {
                 currentRoute.value != Destinations.PANTALLA_BIZUM_URL &&
                 currentRoute.value != Destinations.PANTALLA_TRANSFERENCIA_URL &&
                 currentRoute.value != Destinations.PANTALLA_MODIFICAR_LIMITES_URL &&
-                currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL
+                currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL &&
+                currentRoute.value != Destinations.PANTALLA_AJUSTES
             ) {
                 Topbar(
                     currentRoute = currentRoute,
@@ -63,7 +64,8 @@ fun MyApp() {
                 currentRoute.value == Destinations.PANTALLA_BIZUM_URL ||
                 currentRoute.value == Destinations.PANTALLA_TRANSFERENCIA_URL ||
                 currentRoute.value == Destinations.PANTALLA_MODIFICAR_LIMITES_URL ||
-                currentRoute.value == Destinations.PANTALLA_CANCELAR_TARJETA_URL
+                currentRoute.value == Destinations.PANTALLA_CANCELAR_TARJETA_URL  ||
+                currentRoute.value == Destinations.PANTALLA_AJUSTES
                 ) {
                 TopBar2(
                     currentRoute = currentRoute.value,
@@ -93,7 +95,8 @@ fun MyApp() {
                 currentRoute.value != Destinations.PANTALLA_BIZUM_URL &&
                 currentRoute.value != Destinations.PANTALLA_TRANSFERENCIA_URL &&
                 currentRoute.value != Destinations.PANTALLA_MODIFICAR_LIMITES_URL &&
-                currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL
+                currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL &&
+                currentRoute.value != Destinations.PANTALLA_AJUSTES
             ) {
                 BottomNavigationBar(
                     currentRoute = currentRoute.value,

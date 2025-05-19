@@ -18,6 +18,8 @@ import com.example.httpclienttest.ui.screens.pantallaDeCarga.PantallaDeCargaView
 import com.example.httpclienttest.ui.screens.pantallaInicio.PantallaInicioScreen
 import com.example.httpclienttest.ui.screens.patallaLogin.PantallaLoginScreen
 import com.example.tfg_appbanca.ui.screens.pantallaAhorros.PantallaAhorros
+import com.example.tfg_appbanca.ui.screens.pantallaAjustes.PantallaAjustesScreen
+import com.example.tfg_appbanca.ui.screens.pantallaAjustes.PantallaAjustesViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaBizum.PantallaBizumScreen
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaBizum.PantallaBizumViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.PantallaInicioViewModel
@@ -137,6 +139,15 @@ fun NavGraph(navController: NavHostController) {
             PantallaModificarLimites(
                 navController = navController,
                 pantallaModificarLimitesViewModel = pantallaModificarLimitesViewModel,
+                sharedViewModel = sharedViewModel
+            )
+        }
+
+        composable(Destinations.PANTALLA_AJUSTES) {
+            val pantallaAjustesViewModel: PantallaAjustesViewModel  = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
+            PantallaAjustesScreen(
+                pantallaAjustesViewModel = pantallaAjustesViewModel,
                 sharedViewModel = sharedViewModel
             )
         }

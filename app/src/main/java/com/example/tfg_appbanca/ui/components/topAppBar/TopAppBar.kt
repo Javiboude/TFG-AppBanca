@@ -1,5 +1,6 @@
 package com.example.tfg_appbanca.ui.components.topAppBar
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,6 +33,7 @@ import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
 import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
+@SuppressLint("UnrememberedGetBackStackEntry")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Topbar(
@@ -60,7 +62,6 @@ fun Topbar(
     val usuario by topAppBarViewModel.usuario.collectAsStateWithLifecycle()
     val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
 
-    // Efecto para cargar usuario solo cuando sea necesario
     LaunchedEffect(usuario, numeroTelefono) {
         if (usuario == null && numeroTelefono.isNotEmpty()) {
             topAppBarViewModel.getUsuarioInfo(numeroTelefono)
@@ -94,7 +95,7 @@ fun Topbar(
                         modifier = Modifier.padding(start = 13.dp)
                     ) {
                         Icon(
-                            painter = painterResource(id = com.example.tfg_appbanca.R.drawable.person),
+                            painter = painterResource(id = R.drawable.person),
                             contentDescription = "Avatar",
                             modifier = Modifier.size(44.dp)
                         )
@@ -118,19 +119,23 @@ fun Topbar(
                     }
 
 
+                    IconButton(
+                        onClick = {navController.navigate("${Destinations.PANTALLA_AJUSTES}") },
+                        modifier = Modifier.padding(start = 20.dp, top = 15.dp, end = 10.dp)
+                    ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ajustes),
                         contentDescription = "Ajustes",
                         modifier = Modifier
-                            .size(60.dp)
-                            .padding(end = 24.dp),
+                            .size(35.dp),
                         tint = Color.Black
                     )
+                    }
                 }
 
                 Text(
                     estadoPagina,
-                    fontSize = 27.sp, // Texto más grande
+                    fontSize = 27.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                     textAlign = TextAlign.Center,
@@ -162,14 +167,16 @@ fun TopBar2(
             "Transferencia"
         } else if (currentRoute == Destinations.PANTALLA_MODIFICAR_LIMITES_URL){
             "Modificar limites"
-        }else{
+        }else if (currentRoute == Destinations.PANTALLA_CANCELAR_TARJETA_URL){
             "Info tarjeta"
+        } else{
+            "Ajustes"
         }
     }
     }
 
     val onClick: () -> Unit = {
-        if (currentRoute == Destinations.PANTALLA_BIZUM_URL || currentRoute == Destinations.PANTALLA_TRANSFERENCIA_URL) {
+        if (currentRoute == Destinations.PANTALLA_BIZUM_URL || currentRoute == Destinations.PANTALLA_TRANSFERENCIA_URL || currentRoute == Destinations.PANTALLA_AJUSTES) {
             onHomeClick()
         } else if (currentRoute == Destinations.PANTALLA_MODIFICAR_LIMITES_URL) {
             onTarjetClick()
