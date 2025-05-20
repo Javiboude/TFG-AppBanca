@@ -33,6 +33,7 @@ fun PantallaCancelarTarjetaScreen(
 
     LaunchedEffect(Unit) {
         pantallaCancelarTarjetaViewModel.getUsuarioInfo(numeroTelefono)
+        pantallaCancelarTarjetaViewModel.cargarInfoTarjeta(numeroTelefono)
     }
 
     Column(
@@ -49,13 +50,14 @@ fun PantallaCancelarTarjetaScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         infoTarjeta?.let {
-            if (usuario != null) {
+            if (usuario != null && infoTarjeta != null) {
             InfoTarjeta(
                 titular = usuario!!.nombre,
-                cuentaAsociada = usuario!!.iban,
-                fechaCaducidad = it.fechaCaducidad,
-                cvc = it.cvc,
-                tipo = it.tipo,
+                numeroTarjeta = infoTarjeta!!.numeroTarjeta,
+                cuentaAsociada = infoTarjeta!!.cuentaAsociada,
+                fechaCaducidad = infoTarjeta!!.fechaCaducidad,
+                cvc = infoTarjeta!!.cvc,
+                tipo = infoTarjeta!!.tipo,
                 enviar = {
                     navController.navigate("${Destinations.PANTALLA_TARJETAS_URL}")
                 }
@@ -120,6 +122,7 @@ fun TarjetaInfo(saldo: Float) {
 @Composable
 fun InfoTarjeta(
     titular: String,
+    numeroTarjeta: String,
     cuentaAsociada: String,
     fechaCaducidad: String,
     cvc: String,
@@ -133,6 +136,7 @@ fun InfoTarjeta(
         Spacer(modifier = Modifier.height(16.dp))
 
         InfoItem(titulo = "Titular", valor = titular)
+        InfoItem(titulo = "Número tarjeta", valor = numeroTarjeta)
         InfoItem(titulo = "Cuenta asociada", valor = cuentaAsociada)
         InfoItem(titulo = "Fecha de caducidad", valor = fechaCaducidad)
         InfoItem(titulo = "CVC", valor = cvc)

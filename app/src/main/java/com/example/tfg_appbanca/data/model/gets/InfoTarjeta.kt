@@ -4,7 +4,8 @@ data class InfoTarjeta(
     val cuentaAsociada: String,
     val cvc: String,
     val fechaCaducidad: String,
-    val saldoCuenta: String,
     val tipo: String,
-    val titular: String
+    val numeroTarjeta: String,
+    val limiteOnline: Float,
+    val limiteFisico: Float
 )

@@ -22,15 +22,10 @@ class PantallaCancelarTarjetaViewModel @Inject constructor(
     private val _infoTarjeta = MutableStateFlow<InfoTarjeta?>(null)
     val infoTarjeta: StateFlow<InfoTarjeta?> = _infoTarjeta
 
-    init {
-        cargarInfoTarjeta()
-    }
 
-    private fun cargarInfoTarjeta() {
-        viewModelScope.launch {
-            val infoTarjeta = pantallaCancelarTarjetaViewModel.fetchInfoTarjeta()
+    suspend fun cargarInfoTarjeta(numeroTelefono: String) {
+            val infoTarjeta = pantallaCancelarTarjetaViewModel.fetchInfoTarjeta(numeroTelefono)
             _infoTarjeta.value = infoTarjeta
-        }
     }
 
     suspend fun getUsuarioInfo(numeroTelefono: String) {

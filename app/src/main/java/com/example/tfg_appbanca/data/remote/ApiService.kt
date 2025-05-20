@@ -31,8 +31,8 @@ interface ApiService {
     @GET("ultimos-movimientos")
     fun getUltimosMovimientos(): Call<Ultimosmovimientos>
 
-    @GET("Infotarjeta")
-    fun getInfoTarjeta(): Call<InfoTarjeta>
+    @GET("Infotarjeta/{telefono}")
+    suspend fun getInfoTarjeta(@Path("telefono") telefono: String): InfoTarjeta
 
     @POST("register")
     suspend fun registerUser(
@@ -45,15 +45,15 @@ interface ApiService {
     @POST("login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
 
-    @GET("datosUsuario/{numeroTelefono}")
-    suspend fun getDatosUsuario(@Path("numeroTelefono") numeroTelefono: String): datosUsuario
+    @GET("datosUsuario/{telefono}")
+    suspend fun getDatosUsuario(@Path("telefono") telefono: String): datosUsuario
 
-    @POST("/realizar-bizum")
+    @POST("realizar-bizum")
     suspend fun realizarBizum(
         @Body request: BizumRequest
     ): Response<OperacionResponse>
 
-    @POST("/realizar-transferencia")
+    @POST("realizar-transferencia")
     suspend fun realizarTransferencia(
         @Body request: TransferenciaRequest
     ): Response<OperacionResponse>

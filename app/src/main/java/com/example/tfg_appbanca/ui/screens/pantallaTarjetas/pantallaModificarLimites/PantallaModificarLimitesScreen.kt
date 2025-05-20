@@ -30,10 +30,12 @@ fun PantallaModificarLimites(
     val limiteComercio = pantallaModificarLimitesViewModel.limiteComercio
     val usuario by pantallaModificarLimitesViewModel.usuario.collectAsStateWithLifecycle()
     val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
+    val infoTarjeta by pantallaModificarLimitesViewModel.infoTarjeta.collectAsStateWithLifecycle()
 
 
     LaunchedEffect(Unit) {
         pantallaModificarLimitesViewModel.getUsuarioInfo(numeroTelefono)
+        pantallaModificarLimitesViewModel.cargarInfoTarjeta(numeroTelefono)
     }
 
     Column(
@@ -42,8 +44,12 @@ fun PantallaModificarLimites(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        if (usuario != null) {
-        TarjetaInfo(usuario!!.dinero)
+        if (usuario != null && infoTarjeta != null) {
+        TarjetaInfo(
+            saldo = usuario!!.dinero,
+            limiteOnline = infoTarjeta!!.limiteOnline,
+            limiteFisico = infoTarjeta!!.limiteFisico
+        )
         }
 
         ModificarLimites(
@@ -60,7 +66,11 @@ fun PantallaModificarLimites(
 
 
 @Composable
-fun TarjetaInfo(saldo: Float) {
+fun TarjetaInfo(
+    saldo: Float,
+    limiteOnline: Float,
+    limiteFisico: Float
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,14 +78,17 @@ fun TarjetaInfo(saldo: Float) {
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF0A1D57))
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 30.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(20.dp)
         ) {
-            Column(verticalArrangement = Arrangement.Center) {
+            // Parte superior (Tipo de tarjeta y chip)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = "Débito",
                     color = Color.White,
@@ -83,29 +96,62 @@ fun TarjetaInfo(saldo: Float) {
                     fontWeight = FontWeight.Normal
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-
                 Image(
                     painter = painterResource(id = R.drawable.chip),
-                    contentDescription = "Icono de chip",
-                    modifier = Modifier.size(50.dp)
+                    contentDescription = "Chip de tarjeta",
+                    modifier = Modifier.size(40.dp)
                 )
             }
 
-            Column(horizontalAlignment = Alignment.End) {
-                Text(
-                    text = "Saldo Tarjeta",
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Normal
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "$$saldo",
-                    color = Color.White,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
-                )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Parte central (Saldo)
+            Text(
+                text = "Saldo Tarjeta",
+                color = Color.White.copy(alpha = 0.8f),
+                fontSize = 16.sp
+            )
+            Text(
+                text = "$${String.format("%.2f", saldo)}",
+                color = Color.White,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            // Parte inferior (Límites)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column {
+                    Text(
+                        text = "Límite físico",
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 14.sp
+                    )
+                    Text(
+                        text = "$${String.format("%.0f", limiteFisico)}",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+
+                Column {
+                    Text(
+                        text = "Límite online",
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 14.sp
+                    )
+                    Text(
+                        text = "$${String.format("%.0f", limiteOnline)}",
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
             }
         }
     }

@@ -43,12 +43,13 @@ class GetRepository{
         }
     }
 
-    suspend fun fetchInfoTarjeta(): InfoTarjeta? {
+    suspend fun fetchInfoTarjeta(numeroTelefono: String): InfoTarjeta? {
         return withContext(Dispatchers.IO) {
-            val response = RetrofitInstance.api.getInfoTarjeta().execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
+            try {
+            val response = RetrofitInstance.api.getInfoTarjeta(numeroTelefono)
+                response
+            } catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }
@@ -60,7 +61,7 @@ class GetRepository{
                 // Ahora la respuesta es directamente datosUsuario
                 val response = RetrofitInstance.api.getDatosUsuario(numeroTelefono)
                 Log.d("APIResponse", "Respuesta API: $response")
-                response // Devolvemos directamente el objeto
+                response
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
