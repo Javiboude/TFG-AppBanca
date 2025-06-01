@@ -3,6 +3,7 @@ package com.example.tfg_appbanca.data.repositories
 import com.example.tfg_appbanca.data.model.registro.RegisterResponse
 import com.example.tfg_appbanca.data.model.login.LoginRequest
 import com.example.tfg_appbanca.data.model.login.LoginResponse
+import com.example.tfg_appbanca.data.model.movimientos.AñadirDinero
 import com.example.tfg_appbanca.data.model.movimientos.BizumRequest
 import com.example.tfg_appbanca.data.model.movimientos.OperacionResponse
 import com.example.tfg_appbanca.data.model.movimientos.TransferenciaRequest
@@ -84,6 +85,23 @@ class PostRepository {
                 concepto = concepto
             )
             val response = RetrofitInstance.api.realizarTransferencia(request)
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun añadirDinero(telefono: String, cantidad: Float): OperacionResponse? {
+        return try {
+            val request = AñadirDinero(
+                telefono = telefono,
+                cantidad = cantidad
+            )
+            val response = RetrofitInstance.api.añadirDinero(request)
             if (response.isSuccessful) {
                 response.body()
             } else {

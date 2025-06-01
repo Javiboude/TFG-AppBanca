@@ -54,7 +54,9 @@ fun MyApp() {
                 currentRoute.value != Destinations.PANTALLA_TRANSFERENCIA_URL &&
                 currentRoute.value != Destinations.PANTALLA_MODIFICAR_LIMITES_URL &&
                 currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL &&
-                currentRoute.value != Destinations.PANTALLA_AJUSTES
+                currentRoute.value != Destinations.PANTALLA_AJUSTES &&
+                currentRoute.value != Destinations.PANTALLA_AÑADIR_DINERO &&
+                currentRoute.value != Destinations.PANTALLA_DATOS_PERSONALES
             ) {
                 Topbar(
                     currentRoute = currentRoute,
@@ -65,7 +67,9 @@ fun MyApp() {
                 currentRoute.value == Destinations.PANTALLA_TRANSFERENCIA_URL ||
                 currentRoute.value == Destinations.PANTALLA_MODIFICAR_LIMITES_URL ||
                 currentRoute.value == Destinations.PANTALLA_CANCELAR_TARJETA_URL  ||
-                currentRoute.value == Destinations.PANTALLA_AJUSTES
+                currentRoute.value == Destinations.PANTALLA_AJUSTES ||
+                currentRoute.value == Destinations.PANTALLA_AÑADIR_DINERO ||
+                currentRoute.value == Destinations.PANTALLA_DATOS_PERSONALES
                 ) {
                 TopBar2(
                     currentRoute = currentRoute.value,
@@ -77,6 +81,10 @@ fun MyApp() {
                     onTarjetClick = { navController.navigate(Destinations.PANTALLA_TARJETAS_URL) {
                         popUpTo(Destinations.PANTALLA_TARJETAS_URL) { inclusive = true }
                         }
+                    },
+                    onAjustesClick = { navController.navigate(Destinations.PANTALLA_AJUSTES) {
+                        popUpTo(Destinations.PANTALLA_AJUSTES) { inclusive = true }
+                    }
                     }
                 )
             }
@@ -96,7 +104,9 @@ fun MyApp() {
                 currentRoute.value != Destinations.PANTALLA_TRANSFERENCIA_URL &&
                 currentRoute.value != Destinations.PANTALLA_MODIFICAR_LIMITES_URL &&
                 currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL &&
-                currentRoute.value != Destinations.PANTALLA_AJUSTES
+                currentRoute.value != Destinations.PANTALLA_AJUSTES &&
+                currentRoute.value != Destinations.PANTALLA_AÑADIR_DINERO &&
+                currentRoute.value != Destinations.PANTALLA_DATOS_PERSONALES
             ) {
                 BottomNavigationBar(
                     currentRoute = currentRoute.value,

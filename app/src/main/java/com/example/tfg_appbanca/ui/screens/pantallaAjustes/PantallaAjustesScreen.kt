@@ -1,5 +1,6 @@
 package com.example.tfg_appbanca.ui.screens.pantallaAjustes
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,13 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
 import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 @Composable
 fun PantallaAjustesScreen(
+    navController: NavController,
     pantallaAjustesViewModel: PantallaAjustesViewModel = hiltViewModel(),
     sharedViewModel: SharedViewModel = hiltViewModel()
+
 ) {
 
     val usuario by pantallaAjustesViewModel.usuario.collectAsStateWithLifecycle()
@@ -69,33 +76,27 @@ fun PantallaAjustesScreen(
         }
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             SettingItem(
-                icon = R.drawable.darkk,
-                text = "Modo oscuro",
-            )
-
-            SettingItem(
                 icon = R.drawable.money,
                 text = "Añadir dinero",
+                onClick =  {navController.navigate("${Destinations.PANTALLA_AÑADIR_DINERO}") },
             )
 
             SettingItem(
                 icon = R.drawable.lock,
                 text = "Datos personales",
-            )
-
-            SettingItem(
-                icon = R.drawable.key,
-                text = "Contraseña",
+                onClick = {navController.navigate("${Destinations.PANTALLA_DATOS_PERSONALES}") },
             )
 
             SettingItem(
                 icon = R.drawable.out,
                 text = "Cerrar sesión",
                 textColor = Color.Red,
+                onClick = {navController.navigate("${Destinations.PANTALLA_DE_CARGA_URL}") },
             )
         }
     }
@@ -106,11 +107,15 @@ fun SettingItem(
     icon: Int,
     text: String,
     textColor: Color = MaterialTheme.colorScheme.onBackground,
+    onClick: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
+        IconButton(
+            onClick = onClick,
+        ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = null,
@@ -118,6 +123,7 @@ fun SettingItem(
                 .size(40.dp)
                 .padding(end = 16.dp),
         )
+            }
         Text(
             text = text,
             fontSize = 18.sp,

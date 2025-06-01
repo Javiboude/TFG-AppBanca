@@ -4,5 +4,6 @@ data class datosUsuario(
     val id: Int,
     val dinero: Float,
     val nombre: String,
-    val iban: String
+    val iban: String,
+    val password: String
 )

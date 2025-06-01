@@ -62,8 +62,10 @@ fun Topbar(
     val usuario by topAppBarViewModel.usuario.collectAsStateWithLifecycle()
     val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
 
-    LaunchedEffect(usuario, numeroTelefono) {
-        if (usuario == null && numeroTelefono.isNotEmpty()) {
+    val reloadUser by topAppBarViewModel.reloadUser.collectAsStateWithLifecycle()
+
+    LaunchedEffect(numeroTelefono, reloadUser) {
+        if (numeroTelefono.isNotEmpty()) {
             topAppBarViewModel.getUsuarioInfo(numeroTelefono)
         }
     }
@@ -71,11 +73,11 @@ fun Topbar(
     val topBarModifier = Modifier
         .fillMaxWidth()
         .height(72.dp)
-        .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)) // Solo bordes inferiores redondeados
+        .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
         .border(
             width = 1.dp,
             color = Color.LightGray,
-            shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp) // Borde solo en la parte inferior
+            shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
         )
 
     TopAppBar(
@@ -159,6 +161,7 @@ fun TopBar2(
     currentRoute: String,  // Cambiado a String en lugar de MutableState<String>
     onHomeClick: () -> Unit,
     onTarjetClick: () -> Unit,
+    onAjustesClick: () -> Unit
 ) {
     val title by remember { derivedStateOf {
         if (currentRoute == Destinations.PANTALLA_BIZUM_URL) {
@@ -169,8 +172,12 @@ fun TopBar2(
             "Modificar limites"
         }else if (currentRoute == Destinations.PANTALLA_CANCELAR_TARJETA_URL){
             "Info tarjeta"
-        } else{
+        } else if (currentRoute == Destinations.PANTALLA_AJUSTES){
             "Ajustes"
+        } else if (currentRoute == Destinations.PANTALLA_AÑADIR_DINERO){
+            "Añadir dinero"
+        } else {
+            "Datos personales"
         }
     }
     }
@@ -178,10 +185,10 @@ fun TopBar2(
     val onClick: () -> Unit = {
         if (currentRoute == Destinations.PANTALLA_BIZUM_URL || currentRoute == Destinations.PANTALLA_TRANSFERENCIA_URL || currentRoute == Destinations.PANTALLA_AJUSTES) {
             onHomeClick()
-        } else if (currentRoute == Destinations.PANTALLA_MODIFICAR_LIMITES_URL) {
+        } else if (currentRoute == Destinations.PANTALLA_MODIFICAR_LIMITES_URL || currentRoute == Destinations.PANTALLA_CANCELAR_TARJETA_URL) {
             onTarjetClick()
         } else {
-            onTarjetClick()
+            onAjustesClick()
         }
     }
 

@@ -6,6 +6,7 @@ import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,10 +16,12 @@ class TopAppBarViewModel @Inject constructor(
     private val _usuario = MutableStateFlow<datosUsuario?>(null)
     val usuario: StateFlow<datosUsuario?> = _usuario
 
+    private val _reloadUser = MutableStateFlow(false)
+    val reloadUser: StateFlow<Boolean> = _reloadUser.asStateFlow()
+
     suspend fun getUsuarioInfo(numeroTelefono: String) {
-        repository.getInfoPersonajeByNumeroTelefono(numeroTelefono)?.let { user ->
+        val user = repository.getInfoPersonajeByNumeroTelefono(numeroTelefono)
             _usuario.value = user
-        }
     }
 }
 

@@ -20,6 +20,10 @@ import com.example.httpclienttest.ui.screens.patallaLogin.PantallaLoginScreen
 import com.example.tfg_appbanca.ui.screens.pantallaAhorros.PantallaAhorros
 import com.example.tfg_appbanca.ui.screens.pantallaAjustes.PantallaAjustesScreen
 import com.example.tfg_appbanca.ui.screens.pantallaAjustes.PantallaAjustesViewModel
+import com.example.tfg_appbanca.ui.screens.pantallaAjustes.pantallaAñadirDinero.AñadirDineroScreen
+import com.example.tfg_appbanca.ui.screens.pantallaAjustes.pantallaAñadirDinero.AñadirDineroViewModel
+import com.example.tfg_appbanca.ui.screens.pantallaAjustes.pantallaDatosPersonales.DatosPersonalesScreen
+import com.example.tfg_appbanca.ui.screens.pantallaAjustes.pantallaDatosPersonales.DatosPersonalesViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaBizum.PantallaBizumScreen
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.pantallaBizum.PantallaBizumViewModel
 import com.example.tfg_appbanca.ui.screens.pantallaInicio.PantallaInicioViewModel
@@ -147,7 +151,28 @@ fun NavGraph(navController: NavHostController) {
             val pantallaAjustesViewModel: PantallaAjustesViewModel  = hiltViewModel()
             val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
             PantallaAjustesScreen(
+                navController = navController,
                 pantallaAjustesViewModel = pantallaAjustesViewModel,
+                sharedViewModel = sharedViewModel
+            )
+        }
+
+        composable(Destinations.PANTALLA_AÑADIR_DINERO) {
+            val añadirDineroViewModel: AñadirDineroViewModel  = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
+            AñadirDineroScreen(
+                añadirDineroViewModel = añadirDineroViewModel,
+                navController = navController,
+                sharedViewModel = sharedViewModel
+            )
+        }
+
+        composable(Destinations.PANTALLA_DATOS_PERSONALES) {
+            val datosPersonalesViewModel: DatosPersonalesViewModel = hiltViewModel()
+            val sharedViewModel: SharedViewModel = hiltViewModel(navController.getBackStackEntry(Destinations.PANTALLA_DE_CARGA_URL))
+            DatosPersonalesScreen(
+                datosPersonalesViewModel = datosPersonalesViewModel,
+                navController = navController,
                 sharedViewModel = sharedViewModel
             )
         }

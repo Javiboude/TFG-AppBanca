@@ -9,6 +9,7 @@ import com.example.tfg_appbanca.data.model.gets.Ultimosmovimientos
 import com.example.tfg_appbanca.data.model.gets.datosUsuario
 import com.example.tfg_appbanca.data.model.login.LoginRequest
 import com.example.tfg_appbanca.data.model.login.LoginResponse
+import com.example.tfg_appbanca.data.model.movimientos.AñadirDinero
 import com.example.tfg_appbanca.data.model.movimientos.BizumRequest
 import com.example.tfg_appbanca.data.model.movimientos.OperacionResponse
 import com.example.tfg_appbanca.data.model.movimientos.TransferenciaRequest
@@ -56,5 +57,10 @@ interface ApiService {
     @POST("realizar-transferencia")
     suspend fun realizarTransferencia(
         @Body request: TransferenciaRequest
+    ): Response<OperacionResponse>
+
+    @POST("anadir-dinero")
+    suspend fun añadirDinero(
+        @Body request: AñadirDinero
     ): Response<OperacionResponse>
 }
