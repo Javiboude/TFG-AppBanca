@@ -13,11 +13,14 @@ import com.example.tfg_appbanca.data.model.movimientos.AñadirDinero
 import com.example.tfg_appbanca.data.model.movimientos.BizumRequest
 import com.example.tfg_appbanca.data.model.movimientos.OperacionResponse
 import com.example.tfg_appbanca.data.model.movimientos.TransferenciaRequest
+import com.example.tfg_appbanca.data.model.tarjeta.ActualizarLimitesRequest
+import com.example.tfg_appbanca.data.model.tarjeta.LimitesResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -26,13 +29,13 @@ interface ApiService {
     @GET("contactos")
     fun getPersonajes(): Call<Contactos>
 
-    @GET("BalanceDinero")
+    @GET("balance-dinero")
     fun getBalanceDinero(): Call<BalanceDinero>
 
     @GET("ultimos-movimientos")
     fun getUltimosMovimientos(): Call<Ultimosmovimientos>
 
-    @GET("Infotarjeta/{telefono}")
+    @GET("info-tarjeta/{telefono}")
     suspend fun getInfoTarjeta(@Path("telefono") telefono: String): InfoTarjeta
 
     @POST("register")
@@ -46,7 +49,7 @@ interface ApiService {
     @POST("login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
 
-    @GET("datosUsuario/{telefono}")
+    @GET("datos-usuario/{telefono}")
     suspend fun getDatosUsuario(@Path("telefono") telefono: String): datosUsuario
 
     @POST("realizar-bizum")
@@ -63,4 +66,7 @@ interface ApiService {
     suspend fun añadirDinero(
         @Body request: AñadirDinero
     ): Response<OperacionResponse>
+
+    @PUT("/actualizar-limites-tarjeta")
+    suspend fun actualizarLimites(@Body request: ActualizarLimitesRequest): Response<LimitesResponse>
 }

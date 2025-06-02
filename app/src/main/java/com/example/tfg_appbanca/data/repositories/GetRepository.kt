@@ -1,5 +1,6 @@
 package com.example.tfg_appbanca.data.repositories
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.tfg_appbanca.data.model.gets.BalanceDinero
 import com.example.tfg_appbanca.data.model.gets.Contactos
@@ -43,6 +44,7 @@ class GetRepository{
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     suspend fun fetchInfoTarjeta(numeroTelefono: String): InfoTarjeta? {
         return withContext(Dispatchers.IO) {
             try {

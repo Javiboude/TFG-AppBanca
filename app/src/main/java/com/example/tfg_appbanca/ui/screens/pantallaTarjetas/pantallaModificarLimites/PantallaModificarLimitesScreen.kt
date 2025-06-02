@@ -32,6 +32,38 @@ fun PantallaModificarLimites(
     val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
     val infoTarjeta by pantallaModificarLimitesViewModel.infoTarjeta.collectAsStateWithLifecycle()
 
+    val cambiarLimitesExitoso by pantallaModificarLimitesViewModel.cambiarLimitesExitoso
+    val cambiarLimitesFallido by pantallaModificarLimitesViewModel.cambiarLimitesFallido
+
+    if (cambiarLimitesExitoso) {
+        AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    pantallaModificarLimitesViewModel.setLimitesExitoso(false)
+                    navController.navigate(Destinations.PANTALLA_TARJETAS_URL)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("Cambiar Limites Exitoso") },
+            text = { Text("Se han cambiado los límites.") }
+        )
+    }
+    if (cambiarLimitesFallido == true) {
+        AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    pantallaModificarLimitesViewModel.setLimitesFallido(false)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("Cambiar Limites Fallido") },
+            text = { Text("No se han cambiado los límites.") }
+        )
+    }
 
     LaunchedEffect(Unit) {
         pantallaModificarLimitesViewModel.getUsuarioInfo(numeroTelefono)
@@ -58,6 +90,7 @@ fun PantallaModificarLimites(
             limiteComercio = limiteComercio,
             limiteComercioCambios = { pantallaModificarLimitesViewModel.limiteComercio = it },
             enviar = {
+                pantallaModificarLimitesViewModel.guardarLimites(numeroTelefono)
                 navController.navigate("${Destinations.PANTALLA_TARJETAS_URL}")
             }
         )

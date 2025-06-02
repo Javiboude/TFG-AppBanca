@@ -3,6 +3,7 @@ package com.example.tfg_appbanca.data.di
 
 import com.example.tfg_appbanca.data.repositories.GetRepository
 import com.example.tfg_appbanca.data.repositories.PostRepository
+import com.example.tfg_appbanca.data.repositories.PutRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +25,11 @@ object AppModule {
     @Singleton
     fun provideProductRepository2(): PostRepository {
         return PostRepository()
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductRepository3(): PutRepository {
+        return PutRepository()
     }
 }
