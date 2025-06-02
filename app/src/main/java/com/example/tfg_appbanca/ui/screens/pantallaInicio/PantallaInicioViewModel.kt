@@ -11,6 +11,7 @@ import com.example.tfg_appbanca.data.model.gets.Movimiento
 import com.example.tfg_appbanca.data.model.gets.datosUsuario
 import com.example.tfg_appbanca.data.repositories.GetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,48 +26,55 @@ class PantallaInicioViewModel @Inject constructor(
     private val _contactos = MutableStateFlow<List<String>>(emptyList())
     val contactos: StateFlow<List<String>> = _contactos
 
-
     private val _balanceDinero = MutableStateFlow<BalanceDinero?>(null)
     val balanceDinero: StateFlow<BalanceDinero?> = _balanceDinero
 
-    var ultimosMovimientos by mutableStateOf(listOf<Movimiento>())
+    private val _ultimosMovimientos = MutableStateFlow<List<Movimiento>>(emptyList())
+    val ultimosMovimientos: StateFlow<List<Movimiento>> = _ultimosMovimientos
 
     private val _usuario = MutableStateFlow<datosUsuario?>(null)
     val usuario: StateFlow<datosUsuario?> = _usuario
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     init {
-        cargarContactos()
         cargarBalance()
     }
 
-    private fun cargarContactos() {
-        viewModelScope.launch {
-            val result = pantallaInicioRepository.fetchContactos()?.contactos ?: emptyList()
-            _contactos.value = result
+    suspend fun cargarDatosUsuario(numeroTelefono: String) {
+        _isLoading.value = true
+        try {
+
+            val usuarioInfo = pantallaInicioRepository.getInfoPersonajeByNumeroTelefono(numeroTelefono)
+            _usuario.value = usuarioInfo
+
+            usuarioInfo?.let { usuario ->
+                val contactosDeferred = viewModelScope.async {
+                    pantallaInicioRepository.fetchContactos(usuario.id)?.contactos ?: emptyList()
+                }
+
+                val movimientosDeferred = viewModelScope.async {
+                    pantallaInicioRepository.fetchUltimosMovimientos(usuario.id)?.movimientos ?: emptyList()
+                }
+
+                _contactos.value = contactosDeferred.await()
+                _ultimosMovimientos.value = movimientosDeferred.await()
+            }
+        } catch (e: Exception) {
+            println("Error cargando datos: ${e.message}")
+        } finally {
+            _isLoading.value = false
         }
     }
 
     private fun cargarBalance() {
         viewModelScope.launch {
-            val balance = pantallaInicioRepository.fetchBalanceDinero()
-            _balanceDinero.value = balance
-        }
-    }
-
-    suspend fun cargarUltimosMovimientos(): List<Movimiento>{
-        val movimientos = pantallaInicioRepository.fetchUltimosMovimientos()?.let { infoPersonaje ->
-            infoPersonaje.movimientos
-        }
-        if (movimientos != null) {
-            this.ultimosMovimientos = movimientos
-        }
-        return this.ultimosMovimientos
-    }
-
-    suspend fun getUsuarioInfo(numeroTelefono: String) {
-        val result = pantallaInicioRepository.getInfoPersonajeByNumeroTelefono(numeroTelefono)
-        if (result != null) {
-            _usuario.value = result
+            try {
+                _balanceDinero.value = pantallaInicioRepository.fetchBalanceDinero()
+            } catch (e: Exception) {
+                println("Error cargando balance: ${e.message}")
+            }
         }
     }
 }

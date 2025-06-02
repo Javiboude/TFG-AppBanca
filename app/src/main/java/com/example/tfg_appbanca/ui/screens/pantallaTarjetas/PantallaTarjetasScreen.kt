@@ -31,10 +31,10 @@ fun PantallaTarjetasScreen(
 ) {
     val usuario by pantallaTarjetasViewModel.usuario.collectAsStateWithLifecycle()
     val numeroTelefono by sharedViewModel.numeroTelefono.collectAsStateWithLifecycle()
+    val ultimosMovimientos by pantallaTarjetasViewModel.ultimosMovimientos.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        pantallaTarjetasViewModel.cargarUltimosMovimientos()
-        pantallaTarjetasViewModel.getUsuarioInfo(numeroTelefono)
+        pantallaTarjetasViewModel.cargarDatosUsuario(numeroTelefono)
     }
 
     LazyColumn(
@@ -62,8 +62,8 @@ fun PantallaTarjetasScreen(
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        items(pantallaTarjetasViewModel.ultimosMovimientos) { movimiento ->
-            TransaccionesRecientes(
+        items(ultimosMovimientos) { movimiento ->
+            com.example.httpclienttest.ui.screens.pantallaInicio.TransaccionesRecientes(
                 cantidad = movimiento.cantidad,
                 esPositiva = movimiento.esPositiva,
                 lugar = movimiento.lugar,

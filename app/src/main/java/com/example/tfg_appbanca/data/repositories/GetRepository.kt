@@ -11,9 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class GetRepository{
-     suspend fun fetchContactos(): Contactos? {
+     suspend fun fetchContactos(id: Int): Contactos? {
          return withContext(Dispatchers.IO) {
-             val response = RetrofitInstance.api.getPersonajes().execute()
+             val response = RetrofitInstance.api.getPersonajes(id).execute()
              if (response.isSuccessful) {
                  response.body()
              } else {
@@ -33,9 +33,9 @@ class GetRepository{
         }
     }
 
-    suspend fun fetchUltimosMovimientos(): Ultimosmovimientos? {
+    suspend fun fetchUltimosMovimientos(id: Int): Ultimosmovimientos? {
         return withContext(Dispatchers.IO) {
-            val response = RetrofitInstance.api.getUltimosMovimientos().execute()
+            val response = RetrofitInstance.api.getUltimosMovimientos(id).execute()
             if (response.isSuccessful) {
                 response.body()
             } else {

@@ -40,21 +40,23 @@ fun PantallaInicioScreen(
     val contactos by pantallaInicioViewModel.contactos.collectAsStateWithLifecycle()
     val balanceDinero by pantallaInicioViewModel.balanceDinero.collectAsStateWithLifecycle()
     val usuario by pantallaInicioViewModel.usuario.collectAsStateWithLifecycle()
+    val ultimosMovimientos by pantallaInicioViewModel.ultimosMovimientos.collectAsStateWithLifecycle()
+    val isLoading by pantallaInicioViewModel.isLoading.collectAsStateWithLifecycle()
 
-
-    LaunchedEffect(Unit) {
-        pantallaInicioViewModel.cargarUltimosMovimientos()
-        pantallaInicioViewModel.getUsuarioInfo(numeroTelefono)
+    LaunchedEffect(numeroTelefono) {
+        pantallaInicioViewModel.cargarDatosUsuario(numeroTelefono)
     }
 
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    if (isLoading) {
+        CircularProgressIndicator(modifier = Modifier.fillMaxSize().wrapContentSize())
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
         item {
             balanceDinero?.let {
                 if (usuario != null) {
@@ -100,7 +102,7 @@ fun PantallaInicioScreen(
 
         item { Spacer(modifier = Modifier.height(16.dp)) }
 
-        items(pantallaInicioViewModel.ultimosMovimientos) { movimiento ->
+        items(ultimosMovimientos) { movimiento ->
             TransaccionesRecientes(
                 cantidad = movimiento.cantidad,
                 esPositiva = movimiento.esPositiva,
@@ -111,6 +113,8 @@ fun PantallaInicioScreen(
         }
     }
 }
+}
+
 
 @Composable
 private fun AccionesRapidas(

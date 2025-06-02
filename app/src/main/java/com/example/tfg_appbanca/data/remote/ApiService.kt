@@ -26,14 +26,14 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("contactos")
-    fun getPersonajes(): Call<Contactos>
+    @GET("contactos/{user-id}")
+    fun getPersonajes(@Path("user-id") id: Int): Call<Contactos>
 
     @GET("balance-dinero")
     fun getBalanceDinero(): Call<BalanceDinero>
 
-    @GET("ultimos-movimientos")
-    fun getUltimosMovimientos(): Call<Ultimosmovimientos>
+    @GET("ultimos-movimientos/{user-id}")
+    fun getUltimosMovimientos(@Path("user-id") id: Int): Call<Ultimosmovimientos>
 
     @GET("info-tarjeta/{telefono}")
     suspend fun getInfoTarjeta(@Path("telefono") telefono: String): InfoTarjeta
