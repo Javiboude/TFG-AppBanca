@@ -30,11 +30,6 @@ class PantallaModificarLimitesViewModel @Inject constructor(
     private val _infoTarjeta = MutableStateFlow<InfoTarjeta?>(null)
     val infoTarjeta: StateFlow<InfoTarjeta?> = _infoTarjeta
 
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
-
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error
 
     var cambiarLimitesExitoso = mutableStateOf(false)
     var cambiarLimitesFallido = mutableStateOf(false)
@@ -62,8 +57,6 @@ class PantallaModificarLimitesViewModel @Inject constructor(
 
      fun guardarLimites(numeroTelefono: String) {
         viewModelScope.launch {
-            _isLoading.value = true
-            _error.value = null
 
             val limiteFisico = limiteCajeros.toDoubleOrNull()
             val limiteOnline = limiteComercio.toDoubleOrNull()
@@ -78,7 +71,7 @@ class PantallaModificarLimitesViewModel @Inject constructor(
             }
             if (response != null) {
                 cambiarLimitesExitoso.value = true
-            }else{
+            } else {
                 cambiarLimitesFallido.value = true
             }
         }

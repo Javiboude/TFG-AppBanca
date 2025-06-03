@@ -105,7 +105,7 @@ fun PantallaInicioScreen(
         items(ultimosMovimientos) { movimiento ->
             TransaccionesRecientes(
                 cantidad = movimiento.cantidad,
-                esPositiva = movimiento.esPositiva,
+                esPositiva = movimiento.es_positiva,
                 lugar = movimiento.lugar,
                 motivo = movimiento.motivo
             )

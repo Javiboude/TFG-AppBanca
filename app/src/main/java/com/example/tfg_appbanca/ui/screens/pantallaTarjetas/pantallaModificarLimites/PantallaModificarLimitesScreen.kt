@@ -50,7 +50,7 @@ fun PantallaModificarLimites(
             text = { Text("Se han cambiado los límites.") }
         )
     }
-    if (cambiarLimitesFallido == true) {
+    if (cambiarLimitesFallido) {
         AlertDialog(
             onDismissRequest = { },
             confirmButton = {
@@ -91,7 +91,6 @@ fun PantallaModificarLimites(
             limiteComercioCambios = { pantallaModificarLimitesViewModel.limiteComercio = it },
             enviar = {
                 pantallaModificarLimitesViewModel.guardarLimites(numeroTelefono)
-                navController.navigate("${Destinations.PANTALLA_TARJETAS_URL}")
             }
         )
     }

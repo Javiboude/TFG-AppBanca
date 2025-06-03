@@ -65,7 +65,7 @@ fun PantallaTarjetasScreen(
         items(ultimosMovimientos) { movimiento ->
             com.example.httpclienttest.ui.screens.pantallaInicio.TransaccionesRecientes(
                 cantidad = movimiento.cantidad,
-                esPositiva = movimiento.esPositiva,
+                esPositiva = movimiento.es_positiva,
                 lugar = movimiento.lugar,
                 motivo = movimiento.motivo
             )

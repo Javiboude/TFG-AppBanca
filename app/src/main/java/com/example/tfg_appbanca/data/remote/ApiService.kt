@@ -67,6 +67,6 @@ interface ApiService {
         @Body request: AñadirDinero
     ): Response<OperacionResponse>
 
-    @PUT("/actualizar-limites-tarjeta")
+    @PUT("actualizar-limites-tarjeta")
     suspend fun actualizarLimites(@Body request: ActualizarLimitesRequest): Response<LimitesResponse>
 }
