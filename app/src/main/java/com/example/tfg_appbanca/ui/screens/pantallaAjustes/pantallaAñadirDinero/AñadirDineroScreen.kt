@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +40,8 @@ fun AñadirDineroScreen(
     val operacionExitosa = añadirDineroViewModel.operacionExitosa
     val operacionFallida = añadirDineroViewModel.operacionFallida
 
+    val camposValidos = cantidadDinero.isNotBlank()
+
 
     LaunchedEffect(Unit) {
         añadirDineroViewModel.getUsuarioInfo(numeroTelefonoUsuario)
@@ -49,13 +53,29 @@ fun AñadirDineroScreen(
             confirmButton = {
                 Button(onClick = {
                     añadirDineroViewModel.setOperacionExitosa(false)
-                    navController.navigate(Destinations.PANTALLA_AÑADIR_DINERO)
+                    navController.navigate(Destinations.PANTALLA_INICIO_URL)
                 }) {
                     Text("Aceptar")
                 }
             },
             title = { Text("Dinero añadido") },
             text = { Text("Se ha enviado el dinero correctamente.") }
+        )
+    }
+
+    if (operacionFallida.value) {
+        AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                Button(onClick = {
+                    añadirDineroViewModel.setOperacionExitosa(false)
+                    navController.navigate(Destinations.PANTALLA_INICIO_URL)
+                }) {
+                    Text("Aceptar")
+                }
+            },
+            title = { Text("No se ha podido añadir") },
+            text = { Text("No ha añadido el dinero.") }
         )
     }
 
@@ -82,6 +102,11 @@ fun AñadirDineroScreen(
                     telefono = numeroTelefonoUsuario
                 )
             },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF0A1D57),
+                disabledContainerColor = Color(0xFFCCCCCC)
+            ),
+            enabled = camposValidos,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)

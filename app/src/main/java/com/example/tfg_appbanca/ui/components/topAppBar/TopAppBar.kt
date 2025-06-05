@@ -170,7 +170,7 @@ fun TopBar2(
             "Transferencia"
         } else if (currentRoute == Destinations.PANTALLA_MODIFICAR_LIMITES_URL){
             "Modificar limites"
-        }else if (currentRoute == Destinations.PANTALLA_CANCELAR_TARJETA_URL){
+        }else if (currentRoute == Destinations.PANTALLA_INFO_TARJETA_URL){
             "Info tarjeta"
         } else if (currentRoute == Destinations.PANTALLA_AJUSTES){
             "Ajustes"
@@ -185,7 +185,7 @@ fun TopBar2(
     val onClick: () -> Unit = {
         if (currentRoute == Destinations.PANTALLA_BIZUM_URL || currentRoute == Destinations.PANTALLA_TRANSFERENCIA_URL || currentRoute == Destinations.PANTALLA_AJUSTES) {
             onHomeClick()
-        } else if (currentRoute == Destinations.PANTALLA_MODIFICAR_LIMITES_URL || currentRoute == Destinations.PANTALLA_CANCELAR_TARJETA_URL) {
+        } else if (currentRoute == Destinations.PANTALLA_MODIFICAR_LIMITES_URL || currentRoute == Destinations.PANTALLA_INFO_TARJETA_URL) {
             onTarjetClick()
         } else {
             onAjustesClick()

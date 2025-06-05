@@ -309,7 +309,7 @@ fun TablaIngresos(
             ) {
                 Column {
                     Text(
-                        text = "$${balanceTotal}",
+                        text = "${balanceTotal}€",
                         color = Color.White,
                         style = MaterialTheme.typography.headlineSmall
                     )
@@ -331,7 +331,7 @@ fun TablaIngresos(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
-                    // Barra ingresos (verde)
+
                     Box(
                         modifier = Modifier
                             .height((100 * ingresos[i] / valorMaximo).dp)
@@ -339,7 +339,7 @@ fun TablaIngresos(
                             .background(Color(0xFF00E676))
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    // Barra gastos (rojo)
+
                     Box(
                         modifier = Modifier
                             .height((100 * gastos[i] / valorMaximo).dp)

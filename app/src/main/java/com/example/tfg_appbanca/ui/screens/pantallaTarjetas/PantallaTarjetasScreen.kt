@@ -50,7 +50,7 @@ fun PantallaTarjetasScreen(
             Spacer(modifier = Modifier.height(40.dp))
             AccionesRapidas(
                 onModificarLimitesClick = { navController.navigate("${Destinations.PANTALLA_MODIFICAR_LIMITES_URL}") },
-                onInfoTarjetaClick = { navController.navigate("${Destinations.PANTALLA_CANCELAR_TARJETA_URL}") }
+                onInfoTarjetaClick = { navController.navigate("${Destinations.PANTALLA_INFO_TARJETA_URL}") }
             )
             Spacer(modifier = Modifier.height(24.dp))
             Text(

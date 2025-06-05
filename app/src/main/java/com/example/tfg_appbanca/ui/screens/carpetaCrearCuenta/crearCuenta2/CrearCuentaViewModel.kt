@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CrearCuenta2ViewModel @Inject constructor(
+class CrearCuentaViewModel @Inject constructor(
     private val pantallaCrearCuenta2: PostRepository
 ) : ViewModel() {
 

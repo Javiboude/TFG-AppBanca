@@ -22,9 +22,9 @@ import com.example.tfg_appbanca.R
 import com.example.tfg_appbanca.ui.screens.patallaLogin.SharedViewModel
 
 @Composable
-fun PantallaCancelarTarjetaScreen(
+fun PantallaInfoTarjetaScreen(
     navController: NavController,
-    pantallaCancelarTarjetaViewModel: PantallaCancelarTarjetaViewModel = hiltViewModel(),
+    pantallaCancelarTarjetaViewModel: PantallaInfoTarjetaViewModel = hiltViewModel(),
     sharedViewModel: SharedViewModel = hiltViewModel()
 ) {
     val infoTarjeta by pantallaCancelarTarjetaViewModel.infoTarjeta.collectAsStateWithLifecycle()
@@ -109,7 +109,7 @@ fun TarjetaInfo(saldo: Float) {
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "$$saldo",
+                    text = "$saldo€",
                     color = Color.White,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold

@@ -164,7 +164,7 @@ fun TarjetaInfo(
                         fontSize = 14.sp
                     )
                     Text(
-                        text = "$${String.format("%.0f", limiteFisico)}",
+                        text = "${String.format("%.0f", limiteFisico)}€",
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
@@ -178,7 +178,7 @@ fun TarjetaInfo(
                         fontSize = 14.sp
                     )
                     Text(
-                        text = "$${String.format("%.0f", limiteOnline)}",
+                        text = "${String.format("%.0f", limiteOnline)}€",
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
@@ -197,6 +197,9 @@ private fun ModificarLimites(
     limiteComercioCambios: (String) -> Unit,
     enviar: () -> Unit
 ) {
+
+    val camposValidos = limiteCajeros.isNotBlank() || limiteComercio.isNotBlank()
+
     Column {
         Text(
             text = "Limite diario cajeros",
@@ -207,7 +210,8 @@ private fun ModificarLimites(
             value = limiteCajeros,
             onValueChange = limiteCajerosCambio,
             label = { Text("1 -- 3.000") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            prefix = { Text("€") }
         )
 
         Spacer(modifier = Modifier.height(25.dp))
@@ -221,7 +225,8 @@ private fun ModificarLimites(
             value = limiteComercio,
             onValueChange = limiteComercioCambios,
             label = { Text("1 -- 6.000") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            prefix = { Text("€") }
         )
 
         Spacer(modifier = Modifier.height(60.dp))
@@ -233,7 +238,9 @@ private fun ModificarLimites(
                 .height(50.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF0A1D57),
-            )
+                disabledContainerColor = Color(0xFFCCCCCC)
+            ),
+            enabled = camposValidos
         ) {
             Text(
                 text = "Cambiar limites",

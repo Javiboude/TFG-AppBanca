@@ -30,9 +30,9 @@ import com.example.httpclienttest.ui.navigation.Destinations
 import com.example.tfg_appbanca.R
 
 @Composable
-fun CrearCuenta2Screen(
+fun CrearCuentaScreen(
     navController: NavController,
-    crearCuenta2ViewModel: CrearCuenta2ViewModel = hiltViewModel(),
+    crearCuenta2ViewModel: CrearCuentaViewModel = hiltViewModel(),
 ) {
     val nombre = crearCuenta2ViewModel.nombre
     val contraseña = crearCuenta2ViewModel.contraseña
@@ -82,7 +82,7 @@ fun CrearCuenta2Screen(
                     }
                 },
                 title = { Text("Registro Fallido") },
-                text = { Text("Ese numero de telefono ya existe.") }
+                text = { Text("No se ha podido regisdtrar la cuenta.") }
             )
         }
 

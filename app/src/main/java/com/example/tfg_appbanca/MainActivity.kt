@@ -48,12 +48,11 @@ fun MyApp() {
         topBar = {
             if (currentRoute.value != Destinations.PANTALLA_DE_CARGA_URL &&
                 currentRoute.value != Destinations.PANTALLA_LOGIN_URL &&
-                currentRoute.value != Destinations.CREAR_CUENTA_1_URL &&
-                currentRoute.value != Destinations.CREAR_CUENTA_2_URL &&
+                currentRoute.value != Destinations.CREAR_CUENTA_URL &&
                 currentRoute.value != Destinations.PANTALLA_BIZUM_URL &&
                 currentRoute.value != Destinations.PANTALLA_TRANSFERENCIA_URL &&
                 currentRoute.value != Destinations.PANTALLA_MODIFICAR_LIMITES_URL &&
-                currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL &&
+                currentRoute.value != Destinations.PANTALLA_INFO_TARJETA_URL &&
                 currentRoute.value != Destinations.PANTALLA_AJUSTES &&
                 currentRoute.value != Destinations.PANTALLA_AÑADIR_DINERO &&
                 currentRoute.value != Destinations.PANTALLA_DATOS_PERSONALES
@@ -66,7 +65,7 @@ fun MyApp() {
                 currentRoute.value == Destinations.PANTALLA_BIZUM_URL ||
                 currentRoute.value == Destinations.PANTALLA_TRANSFERENCIA_URL ||
                 currentRoute.value == Destinations.PANTALLA_MODIFICAR_LIMITES_URL ||
-                currentRoute.value == Destinations.PANTALLA_CANCELAR_TARJETA_URL  ||
+                currentRoute.value == Destinations.PANTALLA_INFO_TARJETA_URL  ||
                 currentRoute.value == Destinations.PANTALLA_AJUSTES ||
                 currentRoute.value == Destinations.PANTALLA_AÑADIR_DINERO ||
                 currentRoute.value == Destinations.PANTALLA_DATOS_PERSONALES
@@ -98,12 +97,11 @@ fun MyApp() {
 
             if (currentRoute.value != Destinations.PANTALLA_DE_CARGA_URL &&
                 currentRoute.value != Destinations.PANTALLA_LOGIN_URL &&
-                currentRoute.value != Destinations.CREAR_CUENTA_1_URL &&
-                currentRoute.value != Destinations.CREAR_CUENTA_2_URL &&
+                currentRoute.value != Destinations.CREAR_CUENTA_URL &&
                 currentRoute.value != Destinations.PANTALLA_BIZUM_URL &&
                 currentRoute.value != Destinations.PANTALLA_TRANSFERENCIA_URL &&
                 currentRoute.value != Destinations.PANTALLA_MODIFICAR_LIMITES_URL &&
-                currentRoute.value != Destinations.PANTALLA_CANCELAR_TARJETA_URL &&
+                currentRoute.value != Destinations.PANTALLA_INFO_TARJETA_URL &&
                 currentRoute.value != Destinations.PANTALLA_AJUSTES &&
                 currentRoute.value != Destinations.PANTALLA_AÑADIR_DINERO &&
                 currentRoute.value != Destinations.PANTALLA_DATOS_PERSONALES

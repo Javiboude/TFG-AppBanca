@@ -135,6 +135,9 @@ private fun Bizum(
     onConceptoCambio: (String) -> Unit,
     onSubmit: () -> Unit
 ) {
+
+    val camposValidos = numeroTelefono.isNotBlank() && cantidad.isNotBlank()
+
     Column {
         Text(
             text = "Destinatario",
@@ -145,7 +148,8 @@ private fun Bizum(
             value = numeroTelefono,
             onValueChange = onNumeroTelefonoCambio,
             label = { Text("Teléfono") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            prefix = { Text("+34") }
         )
 
         Spacer(modifier = Modifier.height(25.dp))
@@ -159,7 +163,8 @@ private fun Bizum(
             value = cantidad,
             onValueChange = onCantidadCambio,
             label = { Text("Importe") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            prefix = { Text("€") }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -185,7 +190,9 @@ private fun Bizum(
                 .height(50.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF0A1D57),
+                disabledContainerColor = Color(0xFFCCCCCC)
             ),
+            enabled = camposValidos
         ) {
             Text(
                 text = "Confirmar",

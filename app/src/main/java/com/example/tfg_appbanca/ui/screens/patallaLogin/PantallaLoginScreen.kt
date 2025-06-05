@@ -58,7 +58,7 @@ fun PantallaLoginScreen(
                 }
             },
             title = { Text("Login Fallido") },
-            text = { Text("Ingrese correctamente el numero de telefono o la contraseña") }
+            text = { Text("No se ha podido iniciar el usuario.") }
         )
     }
 
@@ -161,7 +161,7 @@ fun PantallaLoginScreen(
                     .wrapContentWidth(align = Alignment.CenterHorizontally)
                     .padding(top = 8.dp)
                     .clickable {
-                        navController.navigate("${Destinations.CREAR_CUENTA_2_URL}")
+                        navController.navigate("${Destinations.CREAR_CUENTA_URL}")
                     }
             )
         }
