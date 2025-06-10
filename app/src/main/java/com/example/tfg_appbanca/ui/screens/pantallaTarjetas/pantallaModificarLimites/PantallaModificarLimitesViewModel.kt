@@ -55,20 +55,33 @@ class PantallaModificarLimitesViewModel @Inject constructor(
     }
 
 
-     fun guardarLimites(numeroTelefono: String) {
+    fun guardarLimites(numeroTelefono: String) {
         viewModelScope.launch {
-
             val limiteFisico = limiteCajeros.toDoubleOrNull()
             val limiteOnline = limiteComercio.toDoubleOrNull()
-            val response = limiteFisico?.let {
-                if (limiteOnline != null) {
-                    repositoryPut.actualizarLimitesTarjeta(
-                        telefono = numeroTelefono,
-                        limiteOnline = limiteOnline,
-                        limiteFisico = it
-                    )
-                }
+
+            // Validar los límites
+            if (limiteFisico != null && (limiteFisico < 1 || limiteFisico > 3000)) {
+                cambiarLimitesFallido.value = true
+                return@launch
             }
+
+            if (limiteOnline != null && (limiteOnline < 1 || limiteOnline > 6000)) {
+                cambiarLimitesFallido.value = true
+                return@launch
+            }
+
+            // Enviar datos si son válidos
+            val response = if (limiteFisico != null && limiteOnline != null) {
+                repositoryPut.actualizarLimitesTarjeta(
+                    telefono = numeroTelefono,
+                    limiteOnline = limiteOnline,
+                    limiteFisico = limiteFisico
+                )
+            } else {
+                null
+            }
+
             if (response != null) {
                 cambiarLimitesExitoso.value = true
             } else {
